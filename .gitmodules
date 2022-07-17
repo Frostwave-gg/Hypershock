@@ -10,3 +10,12 @@
 [submodule "Hypershock/vendor/src/stb"]
 	path = Hypershock/vendor/src/stb
 	url = git@github.com:nothings/stb.git
+[submodule "Hypershock/vendor/src/glew"]
+	path = Hypershock/vendor/src/glew
+	url = git@github.com:nigels-com/glew.git
+[submodule "Hypershock/vendor/src/freeglut"]
+	path = Hypershock/vendor/src/freeglut
+	url = git@github.com:FreeGLUTProject/freeglut.git
+[submodule "Hypershock/vendor/src/glad"]
+	path = Hypershock/vendor/src/glad
+	url = git@github.com:Dav1dde/glad.git
