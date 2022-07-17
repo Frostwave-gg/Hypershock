@@ -1,0 +1,9 @@
+set(HYPERSHOCK_CORE_HEADERS
+        "${CMAKE_CURRENT_SOURCE_DIR}/Core.hpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Types.hpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Window.hpp"
+        CACHE INTERNAL "" FORCE)
+
+set(HYPERSHOCK_CORE_SOURCES
+        "${CMAKE_CURRENT_SOURCE_DIR}/Window.cpp"
+        CACHE INTERNAL "" FORCE)
