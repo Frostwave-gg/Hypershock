@@ -5,10 +5,16 @@
 #ifndef HYPERSHOCK_WINDOW_HPP
 #define HYPERSHOCK_WINDOW_HPP
 
+#include "Core.hpp"
+#include "Types.hpp"
 
-class Window {
+namespace Hypershock {
 
-};
+    class HYPERSHOCK_PUBLIC_API Window {
+
+    };
+
+}
 
 
 #endif //HYPERSHOCK_WINDOW_HPP
