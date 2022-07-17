@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.20.0)
 
-set(HYPERSHOCK_VERSION 0.1)
+set(HYPERSHOCK_VERSION 0.0.1)
+
+message(STATUS "\n-- HYPERSHOCK: Version ${HYPERSHOCK_VERSION}\n--")
 
 project(Hypershock VERSION ${HYPERSHOCK_VERSION})
 
@@ -29,11 +31,11 @@ else()
 endif()
 
 if(HYPERSHOCK_BUILD_TYPE STREQUAL "STATIC")
-	message(STATUS "HYPERSHOCK: Build type detected: ${GGEZ_BUILD_TYPE}")
+	message(STATUS "HYPERSHOCK: Build type: ${HYPERSHOCK_BUILD_TYPE}")
 elseif(HYPERSHOCK_BUILD_TYPE STREQUAL "SHARED")
-	message(STATUS "HYPERSHOCK: Build type detected: ${GGEZ_BUILD_TYPE}")
+	message(STATUS "HYPERSHOCK: Build type: ${HYPERSHOCK_BUILD_TYPE}")
 else()
-	message(FATAL_ERROR "HYPERSHOCK: Build type detected: ${GGEZ_BUILD_TYPE}")
+	message(FATAL_ERROR "HYPERSHOCK: Build type: ${HYPERSHOCK_BUILD_TYPE}")
 endif()
 
 
@@ -43,13 +45,13 @@ target_include_directories(Hypershock PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/Hypers
 target_include_directories(Hypershock PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/Hypershock/vendor/src/stb")
 target_include_directories(Hypershock PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/Hypershock/src/Hypershock")
 
-message(STATUS "HYPERSHOCK: Building glfw")
+message(STATUS "\n-- HYPERSHOCK: Adding glfw\n--")
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/Hypershock/vendor/src/glfw")
 
-message(STATUS "HYPERSHOCK: Building glm")
+message(STATUS "\n-- HYPERSHOCK: Adding glm\n--")
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/Hypershock/vendor/src/glm")
 
-message(STATUS "HYPERSHOCK: Building spdlog")
+message(STATUS "\n-- HYPERSHOCK: Adding spdlog\n--")
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/Hypershock/vendor/src/spdlog")
 
 target_link_libraries(Hypershock glfw glm spdlog)

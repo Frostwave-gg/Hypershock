@@ -3,5 +3,6 @@
 
 #include "Hypershock/Core/Types.hpp"
 #include "Hypershock/Core/Core.hpp"
+#include "Hypershock/Core/EntryPoint.hpp"
 
 #endif //HYPERSHOCK_HYPERSHOCK_HPP
