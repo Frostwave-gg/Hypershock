@@ -57,11 +57,11 @@ add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/Hypershock/vendor/src/spdlog")
 message(STATUS "\n-- HYPERSHOCK: Adding glad\n--")
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/Hypershock/vendor/src/glad")
 
-find_package(OpenGL REQUIRED)
-
-if(NOT OpenGL_FOUND)
-	message(FATAL_ERROR "\n-- HYPERSHOCK: OpenGL not found.")
-endif()
+#find_package(OpenGL REQUIRED)
+#
+#if(NOT OpenGL_FOUND)
+#	message(FATAL_ERROR "\n-- HYPERSHOCK: OpenGL not found.")
+#endif()
 
 target_link_libraries(Hypershock glfw glm spdlog OpenGL glad)
 
