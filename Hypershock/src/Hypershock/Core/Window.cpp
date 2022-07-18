@@ -29,3 +29,92 @@
  */
 
 #include "Window.hpp"
+
+namespace Hypershock {
+
+    Size Window::s_WindowCount = 0;
+
+    Window::Window(Uint32 width, Uint32 height, const std::string &title) {
+        if(s_WindowCount == 0) {
+            glfwInit();
+        }
+
+        s_WindowCount++;
+
+        glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
+
+        m_NativeWindow = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
+
+        m_Settings.width = width;
+        m_Settings.height = height;
+        m_Settings.title = title;
+    }
+
+    Window::Window(WindowSettings settings) {
+
+    }
+
+    Window::~Window() {
+        glfwSetWindowShouldClose(m_NativeWindow, GLFW_TRUE);
+
+        if(--s_WindowCount == 0) {
+            glfwTerminate();
+        }
+    }
+
+    bool Window::Resize(Uint32 width, Uint32 height) {
+        return false;
+    }
+
+    bool Window::ChangeTitle(const std::string &title) {
+        return false;
+    }
+
+    bool Window::ChangeMode(WindowMode mode) {
+        return false;
+    }
+
+    bool Window::Hide() {
+        return false;
+    }
+
+    bool Window::Show() {
+        return false;
+    }
+
+    bool Window::SetWindowed() {
+        return false;
+    }
+
+    bool Window::SetWindowedFullScreen() {
+        return false;
+    }
+
+    bool Window::SetFullScreen() {
+        return false;
+    }
+
+    bool Window::Minimize() {
+        return false;
+    }
+
+    bool Window::Unminimize() {
+        return false;
+    }
+
+    bool Window::Focus() {
+        return false;
+    }
+
+    bool Window::RequestAttention() {
+        return false;
+    }
+
+    bool Window::SetOpacity(float opacity) {
+        return false;
+    }
+
+    bool Window::ShouldClose() {
+        return glfwWindowShouldClose(m_NativeWindow);
+    }
+}

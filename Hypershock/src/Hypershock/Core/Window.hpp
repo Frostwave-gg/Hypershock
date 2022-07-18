@@ -83,7 +83,7 @@ namespace Hypershock {
 
         bool SetOpacity(float opacity);
 
-
+        bool ShouldClose();
 
     private:
         GLFWwindow* m_NativeWindow;

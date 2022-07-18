@@ -33,9 +33,19 @@
 
 #include <iostream>
 
+#include "Window.hpp"
+
 extern void testEntry();
 
 int main(int argc, char* argv[]) {
+    testEntry();
+
+    Hypershock::Window window;
+
+    while(window.ShouldClose()) {
+
+    }
+
     std::cout << sizeof(wchar_t) << std::endl;
 }
 
