@@ -38,6 +38,9 @@ else()
 	message(FATAL_ERROR "HYPERSHOCK: Build type: ${HYPERSHOCK_BUILD_TYPE}")
 endif()
 
+include(GNUInstallDirs)
+
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 add_library(Hypershock ${HYPERSHOCK_BUILD_TYPE} ${HYPERSHOCK_FILES})
 
@@ -73,3 +76,9 @@ elseif(HYPERSHOCK_BUILD_TYPE STREQUAL "SHARED")
 	target_compile_definitions(Hypershock PRIVATE HYPERSHOCK_BUILD_SHARED)
 	target_compile_definitions(Hypershock PRIVATE HYPERSHOCK_EXPORT)
 endif()
+
+set_target_properties(Hypershock PROPERTIES VERSION ${HYPERSHOCK_VERSION}
+		SOVERSION 1
+		PUBLIC_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/Hypershock/Source/Hypershock.hpp")
+
+install(TARGETS Hypershock LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
