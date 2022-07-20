@@ -42,7 +42,7 @@ int main(int argc, char* argv[]) {
 
     Hypershock::Window window;
 
-    while(window.ShouldClose()) {
+    while(!window.ShouldClose()) {
         glfwPollEvents();
     }
 
