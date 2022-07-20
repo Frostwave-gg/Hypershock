@@ -35,15 +35,13 @@ namespace Hypershock {
     Size Window::s_WindowCount = 0;
 
     Window::Window(Uint32 width, Uint32 height, const std::string &title) {
-        if(s_WindowCount == 0) {
+        if(s_WindowCount++ == 0) {
             glfwInit();
         }
 
-        s_WindowCount++;
-
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 
-        m_NativeWindow = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
+        m_pNativeWindow = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
 
         m_Settings.width = width;
         m_Settings.height = height;
@@ -51,11 +49,19 @@ namespace Hypershock {
     }
 
     Window::Window(WindowSettings settings) {
+        if(s_WindowCount++ == 0) {
+            glfwInit();
+        }
 
+        glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
+
+        m_pNativeWindow = glfwCreateWindow(settings.width, settings.height, settings.title.c_str(), nullptr, nullptr);
+
+        m_Settings = settings;
     }
 
     Window::~Window() {
-        glfwSetWindowShouldClose(m_NativeWindow, GLFW_TRUE);
+        glfwSetWindowShouldClose(m_pNativeWindow, GLFW_TRUE);
 
         if(--s_WindowCount == 0) {
             glfwTerminate();
@@ -63,11 +69,19 @@ namespace Hypershock {
     }
 
     bool Window::Resize(Uint32 width, Uint32 height) {
-        return false;
+        if(width == 0 || height == 0) {
+            return false;
+        }
+
+        glfwSetWindowSize(m_pNativeWindow, width, height);
+
+        return true;
     }
 
     bool Window::ChangeTitle(const std::string &title) {
-        return false;
+        glfwSetWindowTitle(m_pNativeWindow, title.c_str());
+
+        return true;
     }
 
     bool Window::ChangeMode(WindowMode mode) {
@@ -115,6 +129,6 @@ namespace Hypershock {
     }
 
     bool Window::ShouldClose() {
-        return glfwWindowShouldClose(m_NativeWindow);
+        return glfwWindowShouldClose(m_pNativeWindow);
     }
 }

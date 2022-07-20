@@ -40,11 +40,11 @@ extern void testEntry();
 int main(int argc, char* argv[]) {
     testEntry();
 
-//    Hypershock::Window window;
-//
-//    while(window.ShouldClose()) {
-//
-//    }
+    Hypershock::Window window;
+
+    while(window.ShouldClose()) {
+        glfwPollEvents();
+    }
 
     std::cout << sizeof(wchar_t) << std::endl;
 }
