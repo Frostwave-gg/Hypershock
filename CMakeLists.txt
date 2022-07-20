@@ -60,15 +60,7 @@ add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/Hypershock/vendor/src/spdlog")
 message(STATUS "\n-- HYPERSHOCK: Adding glad\n--")
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/Hypershock/vendor/src/glad")
 
-#find_package(OpenGL REQUIRED)
-#
-#if(NOT OpenGL_FOUND)
-#	message(FATAL_ERROR "\n-- HYPERSHOCK: OpenGL not found.")
-#endif()
-
 target_link_libraries(Hypershock glfw glm spdlog glad)
-
-target_include_directories(Hypershock PUBLIC ${OPENGL_INCULDE_DIRS})
 
 if(HYPERSHOCK_BUILD_TYPE STREQUAL "STATIC")
 	target_compile_definitions(Hypershock PUBLIC HYPERSHOCK_BUILD_STATIC)
@@ -77,8 +69,4 @@ elseif(HYPERSHOCK_BUILD_TYPE STREQUAL "SHARED")
 	target_compile_definitions(Hypershock PRIVATE HYPERSHOCK_EXPORT)
 endif()
 
-set_target_properties(Hypershock PROPERTIES VERSION ${HYPERSHOCK_VERSION}
-		SOVERSION 1
-		PUBLIC_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/Hypershock/Source/Hypershock.hpp")
-
-install(TARGETS Hypershock LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+set_target_properties(Hypershock PROPERTIES VERSION ${HYPERSHOCK_VERSION})

@@ -40,7 +40,7 @@
 
 namespace Hypershock {
 
-    enum class HYPERSHOCK_PUBLIC_API WindowMode {
+    enum class WindowMode {
         Hidden = 0,
         Windowed = 1,
         WindowedFullScreen = 2,
@@ -48,7 +48,7 @@ namespace Hypershock {
         Minimized = 4
     };
 
-    struct HYPERSHOCK_PUBLIC_API WindowSettings {
+    struct WindowSettings {
         Uint32 width;
         Uint32 height;
         std::string title;
