@@ -28,9 +28,81 @@
  *
  */
 
-#include "EventCore.hpp"
-#include "ApplicationEvent.hpp"
-#include "KeyboardEvent.hpp"
-#include "MouseEvent.hpp"
-#include "WindowEvent.hpp"
+#ifndef HYPERSHOCK_WINDOWEVENT_HPP
+#define HYPERSHOCK_WINDOWEVENT_HPP
 
+#include "Core/Core.hpp"
+#include "Core/Types.hpp"
+#include "EventCore.hpp"
+
+#include <string>
+
+namespace Hypershock {
+
+    class HYPERSHOCK_PUBLIC_API WindowEvent : public Event {
+    public:
+        explicit WindowEvent(const std::string& id) : Event() {}
+        ~WindowEvent() override = default;
+
+        EVENT_CLASS_FUNCTIONS(Window)
+
+        [[nodiscard]] inline std::string GetId() const { return m_WindowId; }
+
+    protected:
+        std::string m_WindowId;
+    };
+
+    class HYPERSHOCK_PUBLIC_API WindowResizeEvent : public WindowEvent {
+    public:
+        explicit WindowResizeEvent(const std::string& id) : WindowEvent(id) {}
+        ~WindowResizeEvent() override = default;
+
+        EVENT_CLASS_FUNCTIONS(Window)
+
+        EVENT_TYPE_FUNCTIONS(WindowResize)
+    };
+
+    class HYPERSHOCK_PUBLIC_API WindowFocusEvent : public WindowEvent {
+    public:
+        explicit WindowFocusEvent(const std::string& id) : WindowEvent(id) {}
+        ~WindowFocusEvent() override = default;
+
+        EVENT_CLASS_FUNCTIONS(Window)
+
+        EVENT_TYPE_FUNCTIONS(WindowFocus)
+    };
+
+    class HYPERSHOCK_PUBLIC_API WindowUnfocusEvent : public WindowEvent {
+    public:
+        explicit WindowUnfocusEvent(const std::string& id) : WindowEvent(id) {}
+        ~WindowUnfocusEvent() override = default;
+
+        EVENT_CLASS_FUNCTIONS(Window)
+
+        EVENT_TYPE_FUNCTIONS(WindowUnfocus)
+    };
+
+    class HYPERSHOCK_PUBLIC_API WindowCloseEvent : public WindowEvent {
+    public:
+        explicit WindowCloseEvent(const std::string& id) : WindowEvent(id) {}
+        ~WindowCloseEvent() override = default;
+
+        EVENT_CLASS_FUNCTIONS(Window)
+
+        EVENT_TYPE_FUNCTIONS(WindowClose)
+    };
+
+    class HYPERSHOCK_PUBLIC_API WindowModeChangeEvent : public WindowEvent {
+    public:
+        explicit WindowModeChangeEvent(const std::string& id) : WindowEvent(id) {}
+        ~WindowModeChangeEvent() override = default;
+
+        EVENT_CLASS_FUNCTIONS(Window)
+
+        EVENT_TYPE_FUNCTIONS(WindowModeChange)
+    };
+
+}
+
+
+#endif //HYPERSHOCK_WINDOWEVENT_HPP

@@ -28,9 +28,7 @@
  *
  */
 
-#include "EventCore.hpp"
-#include "ApplicationEvent.hpp"
-#include "KeyboardEvent.hpp"
-#include "MouseEvent.hpp"
-#include "WindowEvent.hpp"
+#ifndef HYPERSHOCK_APPLICATIONEVENT_HPP
+#define HYPERSHOCK_APPLICATIONEVENT_HPP
 
+#endif //HYPERSHOCK_APPLICATIONEVENT_HPP

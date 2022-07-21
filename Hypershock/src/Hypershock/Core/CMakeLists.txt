@@ -3,6 +3,8 @@ set(HYPERSHOCK_CORE_HEADERS
         "${CMAKE_CURRENT_SOURCE_DIR}/Types.hpp"
         "${CMAKE_CURRENT_SOURCE_DIR}/Window.hpp"
         "${CMAKE_CURRENT_SOURCE_DIR}/EntryPoint.hpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Error.hpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Utilities.hpp"
         CACHE INTERNAL "" FORCE)
 
 set(HYPERSHOCK_CORE_SOURCES

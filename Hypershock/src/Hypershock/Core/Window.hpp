@@ -33,10 +33,12 @@
 
 #include "Core.hpp"
 #include "Types.hpp"
+#include "Event/Event.hpp"
 
 #include <GLFW/glfw3.h>
 
 #include <string>
+#include <functional>
 
 namespace Hypershock {
 
@@ -52,14 +54,16 @@ namespace Hypershock {
         Uint32 width;
         Uint32 height;
         std::string title;
+        std::string id;
         WindowMode mode;
         Uint32 refreshRate;
+        std::function<void(Event&)> eventCallback;
     };
 
     class HYPERSHOCK_PUBLIC_API Window {
     public:
-        Window(Uint32 width = 1920, Uint32 height = 1080, const std::string& title = "");
-        Window(WindowSettings settings);
+        explicit Window(Uint32 width = 1920, Uint32 height = 1080, const std::string& title = "");
+        explicit Window(const WindowSettings& settings);
         ~Window();
 
         // TODO: instead of bools put an error system in place
@@ -88,6 +92,9 @@ namespace Hypershock {
         void OnUpdate();
 
         inline GLFWwindow* GetNativeWindow() { return m_pNativeWindow; }
+
+    private:
+        void SetupCallbacks();
 
     private:
         GLFWwindow* m_pNativeWindow;

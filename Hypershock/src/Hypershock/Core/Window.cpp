@@ -46,9 +46,12 @@ namespace Hypershock {
         m_Settings.width = width;
         m_Settings.height = height;
         m_Settings.title = title;
+        m_Settings.eventCallback = [](Event& event){};
+        m_Settings.mode = WindowMode::Windowed;
+        // Generate UUID
     }
 
-    Window::Window(WindowSettings settings) {
+    Window::Window(const WindowSettings& settings) {
         if(s_WindowCount++ == 0) {
             glfwInit();
         }
@@ -62,6 +65,8 @@ namespace Hypershock {
 
     Window::~Window() {
         glfwSetWindowShouldClose(m_pNativeWindow, GLFW_TRUE);
+
+        glfwDestroyWindow(m_pNativeWindow);
 
         if(--s_WindowCount == 0) {
             glfwTerminate();
@@ -134,5 +139,26 @@ namespace Hypershock {
 
     void Window::OnUpdate() {
         glfwPollEvents();
+    }
+
+    void Window::SetupCallbacks() {
+        glfwSetWindowUserPointer(m_pNativeWindow, &m_Settings);
+
+        // TODO: setup callbacks for all types of events and implement more event types
+        glfwSetWindowCloseCallback(m_pNativeWindow, nullptr);
+        glfwSetWindowContentScaleCallback(m_pNativeWindow, nullptr);
+        glfwSetWindowFocusCallback(m_pNativeWindow, nullptr);
+        glfwSetWindowIconifyCallback(m_pNativeWindow, nullptr);
+        glfwSetWindowMaximizeCallback(m_pNativeWindow, nullptr);
+        glfwSetWindowSizeCallback(m_pNativeWindow, nullptr);
+        glfwSetWindowPosCallback(m_pNativeWindow, nullptr);
+        glfwSetWindowRefreshCallback(m_pNativeWindow, nullptr);
+        glfwSetMouseButtonCallback(m_pNativeWindow, nullptr);
+        glfwSetJoystickCallback(nullptr);
+        glfwSetKeyCallback(m_pNativeWindow, nullptr);
+        glfwSetScrollCallback(m_pNativeWindow, nullptr);
+        glfwSetCursorPosCallback(m_pNativeWindow, nullptr);
+        glfwSetCursorEnterCallback(m_pNativeWindow, nullptr);
+        glfwSetFramebufferSizeCallback(m_pNativeWindow, nullptr);
     }
 }

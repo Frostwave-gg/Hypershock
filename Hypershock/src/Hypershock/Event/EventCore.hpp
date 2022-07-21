@@ -28,9 +28,57 @@
  *
  */
 
-#include "EventCore.hpp"
-#include "ApplicationEvent.hpp"
-#include "KeyboardEvent.hpp"
-#include "MouseEvent.hpp"
-#include "WindowEvent.hpp"
+#ifndef HYPERSHOCK_EVENT_HPP
+#define HYPERSHOCK_EVENTCORE_HPP
 
+#include "Core/Core.hpp"
+
+#include <string>
+
+namespace Hypershock {
+
+    enum class EventType {
+        None,
+        MouseButtonDown, MouseButtonUp, MouseButtonHold, MouseScroll, MouseMove,
+        KeyboardButtonDown, KeyboardButtonUp, KeyboardButtonHold,
+        WindowClose, WindowResize, WindowFocus, WindowUnfocus, WindowModeChange,
+
+    };
+
+    enum class EventClass {
+        None,
+        Keyboard,
+        Mouse,
+        Window,
+        Application
+    };
+
+#define EVENT_TYPE_FUNCTIONS(type) inline static EventType GetStaticType() { return EventType::type; } \
+                                    [[nodiscard]] virtual EventType GetType() const override { return GetStaticType(); } \
+                                    [[nodiscard]] inline virtual std::string GetName() const override { return #type; }
+
+#define EVENT_CLASS_FUNCTIONS(class) inline static EventClass GetClass() { return EventClass::class; }
+
+
+    class HYPERSHOCK_PUBLIC_API Event {
+    public:
+        Event() = default;
+        virtual ~Event() = default;
+
+        inline static EventType GetStaticType() { return EventType::None; }
+        [[nodiscard]] virtual EventType GetType() const = 0;
+        [[nodiscard]] inline virtual std::string GetName() const { return "None"; }
+        inline static EventClass GetClass() { return EventClass::None; }
+
+        inline void Handle() { m_Handled = true; }
+        [[nodiscard]] inline bool IsHandled() const { return m_Handled; }
+
+    protected:
+        bool m_Handled = false;
+    };
+
+}
+
+
+
+#endif //HYPERSHOCK_EVENT_HPP
