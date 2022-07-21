@@ -85,6 +85,8 @@ namespace Hypershock {
 
         bool ShouldClose();
 
+        void OnUpdate();
+
         inline GLFWwindow* GetNativeWindow() { return m_pNativeWindow; }
 
     private:

@@ -131,4 +131,8 @@ namespace Hypershock {
     bool Window::ShouldClose() {
         return glfwWindowShouldClose(m_pNativeWindow);
     }
+
+    void Window::OnUpdate() {
+        glfwPollEvents();
+    }
 }
