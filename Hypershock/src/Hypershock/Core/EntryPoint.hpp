@@ -45,8 +45,6 @@ int main(int argc, char* argv[]) {
     while(!window.ShouldClose()) {
         glfwPollEvents();
     }
-
-    std::cout << sizeof(wchar_t) << std::endl;
 }
 
 
