@@ -30,6 +30,8 @@
 
 #include "Window.hpp"
 
+#include <iostream>
+
 namespace Hypershock {
 
     Size Window::s_WindowCount = 0;
@@ -40,15 +42,33 @@ namespace Hypershock {
         }
 
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
+        glfwWindowHint(GLFW_VISIBLE, GLFW_TRUE);
+        glfwWindowHint(GLFW_DECORATED, GLFW_TRUE);
+        glfwWindowHint(GLFW_FOCUSED, GLFW_TRUE);
+        glfwWindowHint(GLFW_AUTO_ICONIFY, GLFW_FALSE);
+        glfwWindowHint(GLFW_FLOATING, GLFW_FALSE);
+        glfwWindowHint(GLFW_MAXIMIZED, GLFW_FALSE);
+        glfwWindowHint(GLFW_CENTER_CURSOR, GLFW_FALSE);
+        glfwWindowHint(GLFW_TRANSPARENT_FRAMEBUFFER, GLFW_FALSE);
+        glfwWindowHint(GLFW_FOCUS_ON_SHOW, GLFW_TRUE);
+        glfwWindowHint(GLFW_SCALE_TO_MONITOR, GLFW_FALSE);
+
+        glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_TRUE);
+        glfwWindowHint(GLFW_REFRESH_RATE, GLFW_DONT_CARE);
+        glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API); // Change to no_api for non opengl renderers
 
         m_pNativeWindow = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
 
         m_Settings.width = width;
         m_Settings.height = height;
         m_Settings.title = title;
-        m_Settings.eventCallback = [](Event& event){};
+        m_Settings.eventCallback = [](Event& event){
+            std::cout << event.GetName() << std::endl;
+        };
         m_Settings.mode = WindowMode::Windowed;
         // Generate UUID
+
+        SetupCallbacks();
     }
 
     Window::Window(const WindowSettings& settings) {
@@ -61,6 +81,8 @@ namespace Hypershock {
         m_pNativeWindow = glfwCreateWindow(settings.width, settings.height, settings.title.c_str(), nullptr, nullptr);
 
         m_Settings = settings;
+
+        SetupCallbacks();
     }
 
     Window::~Window() {
@@ -145,20 +167,50 @@ namespace Hypershock {
         glfwSetWindowUserPointer(m_pNativeWindow, &m_Settings);
 
         // TODO: setup callbacks for all types of events and implement more event types
-        glfwSetWindowCloseCallback(m_pNativeWindow, nullptr);
-        glfwSetWindowContentScaleCallback(m_pNativeWindow, nullptr);
-        glfwSetWindowFocusCallback(m_pNativeWindow, nullptr);
-        glfwSetWindowIconifyCallback(m_pNativeWindow, nullptr);
-        glfwSetWindowMaximizeCallback(m_pNativeWindow, nullptr);
-        glfwSetWindowSizeCallback(m_pNativeWindow, nullptr);
-        glfwSetWindowPosCallback(m_pNativeWindow, nullptr);
-        glfwSetWindowRefreshCallback(m_pNativeWindow, nullptr);
-        glfwSetMouseButtonCallback(m_pNativeWindow, nullptr);
-        glfwSetJoystickCallback(nullptr);
-        glfwSetKeyCallback(m_pNativeWindow, nullptr);
-        glfwSetScrollCallback(m_pNativeWindow, nullptr);
-        glfwSetCursorPosCallback(m_pNativeWindow, nullptr);
-        glfwSetCursorEnterCallback(m_pNativeWindow, nullptr);
-        glfwSetFramebufferSizeCallback(m_pNativeWindow, nullptr);
+        glfwSetWindowCloseCallback(m_pNativeWindow, [](GLFWwindow* window) {
+            std::cout << "Window Close Event" << std::endl;
+        });
+        glfwSetWindowContentScaleCallback(m_pNativeWindow, [](GLFWwindow* pWindow, float xScale, float yScale) {
+            std::cout << "Window Content Scale Event" << std::endl;
+        });
+        glfwSetWindowFocusCallback(m_pNativeWindow, [](GLFWwindow* pWindow, int focused) {
+            std::cout << "Window Focus Event" << std::endl;
+        });
+        glfwSetWindowIconifyCallback(m_pNativeWindow, [](GLFWwindow* pWindow, int iconified) {
+            std::cout << "Window Iconify Event" << std::endl;
+        });
+        glfwSetWindowMaximizeCallback(m_pNativeWindow, [](GLFWwindow* pWindow, int maximized) {
+            std::cout << "Window Maximize Event" << std::endl;
+        });
+        glfwSetWindowSizeCallback(m_pNativeWindow, [](GLFWwindow* pWindow, Int32 width, Int32 height) {
+            std::cout << "Window Resize Event" << std::endl;
+        });
+        glfwSetWindowPosCallback(m_pNativeWindow, [](GLFWwindow* pWindow, Int32 xPos, Int32 yPos) {
+            std::cout << "Window Position Event" << std::endl;
+        });
+        glfwSetWindowRefreshCallback(m_pNativeWindow, [](GLFWwindow* pWindow) {
+            std::cout << "Window Refresh Event" << std::endl;
+        });
+        glfwSetMouseButtonCallback(m_pNativeWindow, [](GLFWwindow* pWindow, Int32 button, Int32 action, Int32 mods) {
+            std::cout << "Mouse Button Event" << std::endl;
+        });
+        glfwSetJoystickCallback([](Int32 JID, Int32 event) {
+            std::cout << "Joystick Event" << std::endl;
+        });
+        glfwSetKeyCallback(m_pNativeWindow, [](GLFWwindow* pWindow, Int32 key, Int32 scancode, Int32 action, Int32 mods) {
+            std::cout << "Keyboard Key Event" << std::endl;
+        });
+        glfwSetScrollCallback(m_pNativeWindow, [](GLFWwindow* pWindow, double xOffset, double yOffset) {
+            std::cout << "Mouse Scroll Event" << std::endl;
+        });
+        glfwSetCursorPosCallback(m_pNativeWindow, [](GLFWwindow* pWindow, double xPos, double yPos) {
+            std::cout << "Mouse Position Event" << std::endl;
+        });
+        glfwSetCursorEnterCallback(m_pNativeWindow, [](GLFWwindow* pWindow, Int32 entered) {
+            std::cout << "Cursor Enter Event" << std::endl;
+        });
+        glfwSetFramebufferSizeCallback(m_pNativeWindow, [](GLFWwindow* pWindow, Int32 width, Int32 height) {
+            std::cout << "Framebuffer Resize Event" << std::endl;
+        });
     }
 }
