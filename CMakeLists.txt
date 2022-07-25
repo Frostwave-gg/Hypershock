@@ -46,7 +46,7 @@ add_library(Hypershock ${HYPERSHOCK_BUILD_TYPE} ${HYPERSHOCK_FILES})
 
 target_include_directories(Hypershock PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/Hypershock/src")
 target_include_directories(Hypershock PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/Hypershock/vendor/src/stb")
-target_include_directories(Hypershock PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/Hypershock/src/Hypershock")
+target_include_directories(Hypershock PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/Hypershock/src/Hypershock")
 
 message(STATUS "\n-- HYPERSHOCK: Adding glfw\n--")
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/Hypershock/vendor/src/glfw")

@@ -28,7 +28,7 @@
  *
  */
 
-#ifndef HYPERSHOCK_EVENT_HPP
+#ifndef HYPERSHOCK_EVENTCORE_HPP
 #define HYPERSHOCK_EVENTCORE_HPP
 
 #include "Core/Core.hpp"
