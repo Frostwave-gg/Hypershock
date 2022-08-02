@@ -34,6 +34,7 @@
 #include "Core.hpp"
 #include "Types.hpp"
 #include "Event/Event.hpp"
+#include "Monitor.hpp"
 
 #include <GLFW/glfw3.h>
 
@@ -45,7 +46,7 @@ namespace Hypershock {
     enum class WindowMode {
         Hidden = 0,
         Windowed = 1,
-        WindowedFullScreen = 2,
+        Borderless = 2,
         FullScreen = 3,
         Minimized = 4
     };
@@ -53,16 +54,20 @@ namespace Hypershock {
     struct WindowSettings {
         Uint32 width;
         Uint32 height;
+        Uint32 pixelWidth;
+        Uint32 pixelHeight;
+        glm::vec2 contentScale;
         std::string title;
         std::string id;
         WindowMode mode;
         Uint32 refreshRate;
+        Size monitorIndex = 0;
         std::function<void(Event&)> eventCallback;
     };
 
     class HYPERSHOCK_PUBLIC_API Window {
     public:
-        explicit Window(Uint32 width = 1920, Uint32 height = 1080, const std::string& title = "");
+        explicit Window(Uint32 width = 1920, Uint32 height = 1080, const std::string& title = "Hypershock");
         explicit Window(const WindowSettings& settings);
         ~Window();
 
@@ -75,8 +80,8 @@ namespace Hypershock {
         bool Show();
 
         bool SetWindowed();
-        bool SetWindowedFullScreen();
-        bool SetFullScreen();
+        bool SetBorderless();
+        bool Maximize();
 
         bool Minimize();
         bool Unminimize();
@@ -89,7 +94,7 @@ namespace Hypershock {
 
         bool ShouldClose();
 
-        void OnUpdate();
+        void PollEvents();
 
         inline GLFWwindow* GetNativeWindow() { return m_pNativeWindow; }
 

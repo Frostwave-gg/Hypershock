@@ -28,8 +28,10 @@
  *
  */
 
-#ifndef HYPERSHOCK_TYPES_H
-#define HYPERSHOCK_TYPES_H
+#pragma once
+
+#ifndef HYPERSHOCK_TYPES_HPP
+#define HYPERSHOCK_TYPES_HPP
 
 #include "Core.hpp"
 
@@ -72,76 +74,12 @@ namespace Hypershock {
         const Size Size_MIN = (Size)0x8000000000000000ULL;
         const Size Size_MAX = (Size)0x7FFFFFFFFFFFFFFFULL;
 
-        template<typename T> T Minimum();
+        template<typename T> HYPERSHOCK_CONSTEXPR T Minimum();
 
-        template<typename T> T Maximum();
-
-        template<> Uint8 Minimum<Uint8>() {
-            return Uint8_MIN;
-        }
-
-        template<> Uint8 Maximum<Uint8>() {
-            return Uint8_MAX;
-        }
-
-        template<> Uint16 Minimum<Uint16>() {
-            return Uint16_MIN;
-        }
-
-        template<> Uint16 Maximum<Uint16>() {
-            return Uint16_MAX;
-        }
-
-        template<> Uint32 Minimum<Uint32>() {
-            return Uint32_MIN;
-        }
-
-        template<> Uint32 Maximum<Uint32>() {
-            return Uint32_MAX;
-        }
-
-        template<> Uint64 Minimum<Uint64>() {
-            return Uint64_MIN;
-        }
-
-        template<> Uint64 Maximum<Uint64>() {
-            return Uint64_MAX;
-        }
-
-        template<> Int8 Minimum<Int8>() {
-            return Int8_MIN;
-        }
-
-        template<> Int8 Maximum<Int8>() {
-            return Int8_MAX;
-        }
-
-        template<> Int16 Minimum<Int16>() {
-            return Int16_MIN;
-        }
-
-        template<> Int16 Maximum<Int16>() {
-            return Int16_MAX;
-        }
-
-        template<> Int32 Minimum<Int32>() {
-            return Int32_MIN;
-        }
-
-        template<> Int32 Maximum<Int32>() {
-            return Int32_MAX;
-        }
-
-        template<> Int64 Minimum<Int64>() {
-            return Int64_MIN;
-        }
-
-        template<> Int64 Maximum<Int64>() {
-            return Int64_MAX;
-        }
+        template<typename T> HYPERSHOCK_CONSTEXPR T Maximum();
     }
 
 }
 
 
-#endif //HYPERSHOCK_TYPES_H
+#endif //HYPERSHOCK_TYPES_HPP

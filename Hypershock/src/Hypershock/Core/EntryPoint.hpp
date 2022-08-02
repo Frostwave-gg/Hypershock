@@ -39,12 +39,6 @@ extern void testEntry();
 
 int main(int argc, char* argv[]) {
     testEntry();
-
-    Hypershock::Window window;
-
-    while(!window.ShouldClose()) {
-        window.OnUpdate();
-    }
 }
 
 

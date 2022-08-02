@@ -30,6 +30,8 @@
 
 #include "Window.hpp"
 
+#include "Utilities.hpp"
+
 #include <iostream>
 
 namespace Hypershock {
@@ -66,7 +68,7 @@ namespace Hypershock {
             std::cout << event.GetName() << std::endl;
         };
         m_Settings.mode = WindowMode::Windowed;
-        // Generate UUID
+        m_Settings.id = Utilities::GenerateUUID();
 
         SetupCallbacks();
     }
@@ -112,46 +114,101 @@ namespace Hypershock {
     }
 
     bool Window::ChangeMode(WindowMode mode) {
-        return false;
+        if(mode == WindowMode::Windowed) {
+            if(m_Settings.mode != WindowMode::Windowed) {
+                SetWindowed();
+            }
+        }
+        else if(mode == WindowMode::Borderless) {
+            if(m_Settings.mode != WindowMode::Borderless) {
+                SetBorderless();
+            }
+        }
+        else if(mode == WindowMode::Hidden) {
+            if(m_Settings.mode != WindowMode::Hidden) {
+                Hide();
+            }
+        }
+        else if(mode == WindowMode::Minimized) {
+            if(m_Settings.mode != WindowMode::Minimized) {
+                Minimize();
+            }
+        }
+        else if(mode == WindowMode::FullScreen) {
+            if(m_Settings.mode != WindowMode::FullScreen) {
+                Maximize();
+            }
+        }
+        else {
+            return false;
+        }
+
+        return true;
     }
 
     bool Window::Hide() {
+        glfwHideWindow(m_pNativeWindow);
+
         return false;
     }
 
     bool Window::Show() {
+        glfwShowWindow(m_pNativeWindow);
+
         return false;
     }
 
     bool Window::SetWindowed() {
+        glfwRestoreWindow(m_pNativeWindow);
+
+        // Deal with this crap
+
         return false;
     }
 
-    bool Window::SetWindowedFullScreen() {
+    bool Window::SetBorderless() {
+        glfwRestoreWindow(m_pNativeWindow);
+
+        // Set borderleses
+
         return false;
     }
 
-    bool Window::SetFullScreen() {
+    bool Window::Maximize() {
+        glfwRestoreWindow(m_pNativeWindow);
+
+        glfwMaximizeWindow(m_pNativeWindow);
+
         return false;
     }
 
     bool Window::Minimize() {
+        glfwIconifyWindow(m_pNativeWindow);
+
         return false;
     }
 
     bool Window::Unminimize() {
+        glfwRestoreWindow(m_pNativeWindow);
+
         return false;
     }
 
     bool Window::Focus() {
+        glfwFocusWindow(m_pNativeWindow);
+
         return false;
     }
 
     bool Window::RequestAttention() {
+        glfwRequestWindowAttention(m_pNativeWindow);
+
         return false;
     }
 
     bool Window::SetOpacity(float opacity) {
+        glfwSetWindowOpacity(m_pNativeWindow, opacity);
+
         return false;
     }
 
@@ -159,7 +216,7 @@ namespace Hypershock {
         return glfwWindowShouldClose(m_pNativeWindow);
     }
 
-    void Window::OnUpdate() {
+    void Window::PollEvents() {
         glfwPollEvents();
     }
 

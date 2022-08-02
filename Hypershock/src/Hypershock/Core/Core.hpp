@@ -137,26 +137,19 @@
 
 #endif // GGEZ_COMPILER
 
-    #ifdef HYPERSHOCK_BUILD_SHARED
+#ifdef HYPERSHOCK_BUILD_SHARED
 
-        #ifdef HYPERSHOCK_WINDOWS
+    #ifdef HYPERSHOCK_WINDOWS
 
-            #ifdef HYPERSHOCK_MSVC
+        #ifdef HYPERSHOCK_MSVC
 
-                #ifdef HYPERSHOCK_EXPORT
-                    #define HYPERSHOCK_PUBLIC_API __declspec(dllexport)
-                #else
-                    #define HYPERSHOCK_PUBLIC_API __declspec(dllimport)
-                #endif
-
-                #define HYPERSHOCK_PRIVATE_API
-
+            #ifdef HYPERSHOCK_EXPORT
+                #define HYPERSHOCK_PUBLIC_API __declspec(dllexport)
             #else
-
-                #define HYPERSHOCK_PUBLIC_API __attribute__((visibility("default")))
-                #define HYPERSHOCK_PRIVATE_API __attribute__((visibility("hidden")))
-
+                #define HYPERSHOCK_PUBLIC_API __declspec(dllimport)
             #endif
+
+            #define HYPERSHOCK_PRIVATE_API
 
         #else
 
@@ -167,9 +160,18 @@
 
     #else
 
+        #define HYPERSHOCK_PUBLIC_API __attribute__((visibility("default")))
+        #define HYPERSHOCK_PRIVATE_API __attribute__((visibility("hidden")))
+
+    #endif
+
+#else
+
     #define HYPERSHOCK_PUBLIC_API
     #define HYPERSHOCK_PRIVATE_API
 
-    #endif
+#endif
+
+#define HYPERSHOCK_CONSTEXPR constexpr
 
 #endif //HYPERSHOCK_CORE_HPP
