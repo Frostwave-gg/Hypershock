@@ -9,6 +9,7 @@
 #include "Core/Types.hpp"
 
 #include <vector>
+#include <set>
 #include <string>
 
 #define MAX_ID_LEN ('9' - '0' + 1 + 'z' - 'a' + 1 + 'Z' - 'A' + 1)
@@ -21,16 +22,22 @@ namespace Hypershock {
         IDTree();
         ~IDTree();
 
+        T* Get(const std::string& id);
+        void Insert(const std::string& id, T* element);
+
+        std::set<std::string> GetKeySet();
+
 
     private:
         struct TreeElement {
             char elemChar = '\0';
-            TreeElement* array[MAX_ID_LEN] = {nullptr};
-            T* element = nullptr;
+            TreeElement* pNextLevel[MAX_ID_LEN] = { nullptr };
+            T* pElement = nullptr;
         };
 
-        std::vector<std::string> m_IDKeys;
+        std::set<std::string> m_IDKeys;
         std::vector<T*> m_Elements;
+        TreeElement* m_pHead = nullptr;
 
     };
 }
