@@ -62,7 +62,7 @@ namespace Hypershock {
         WindowMode mode;
         Uint32 refreshRate;
         Size monitorIndex = 0;
-        std::function<void(Event&)> eventCallback;
+        std::function<void(Event&)> eventCallback = [](Event& event){};
     };
 
     class HYPERSHOCK_PUBLIC_API Window {
@@ -95,6 +95,8 @@ namespace Hypershock {
         bool ShouldClose();
 
         void PollEvents();
+
+        inline std::string GetID() const { return m_Settings.id; }
 
         inline GLFWwindow* GetNativeWindow() { return m_pNativeWindow; }
 

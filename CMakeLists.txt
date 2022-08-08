@@ -65,7 +65,7 @@ target_link_libraries(Hypershock glfw glm spdlog glad)
 if(HYPERSHOCK_BUILD_TYPE STREQUAL "STATIC")
 	target_compile_definitions(Hypershock PUBLIC HYPERSHOCK_BUILD_STATIC)
 elseif(HYPERSHOCK_BUILD_TYPE STREQUAL "SHARED")
-	target_compile_definitions(Hypershock PRIVATE HYPERSHOCK_BUILD_SHARED)
+	target_compile_definitions(Hypershock PUBLIC HYPERSHOCK_BUILD_SHARED)
 	target_compile_definitions(Hypershock PRIVATE HYPERSHOCK_EXPORT)
 endif()
 
