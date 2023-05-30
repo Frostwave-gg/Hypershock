@@ -29,15 +29,10 @@
  *
  */
 //====================================================================================================
-#pragma once
-#ifndef HYPERSHOCK_EVENT_HPP
-#define HYPERSHOCK_EVENT_HPP
+#include "Math.hpp"
 //====================================================================================================
-#include "Hypershock/Event/ApplicationEvent.hpp"
-#include "Hypershock/Event/EventCore.hpp"
-#include "Hypershock/Event/KeyboardEvent.hpp"
-#include "Hypershock/Event/MouseEvent.hpp"
-#include "Hypershock/Event/WindowEvent.hpp"
-//====================================================================================================
-#endif //HYPERSHOCK_EVENT_HPP
+namespace Hypershock::Math
+{
+
+}
 //====================================================================================================

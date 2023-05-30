@@ -30,86 +30,39 @@
  */
 //====================================================================================================
 #pragma once
-#ifndef HYPERSHOCK_EVENTCORE_HPP
-#define HYPERSHOCK_EVENTCORE_HPP
+#ifndef HYPERSHOCK_CAST_HPP
+#define HYPERSHOCK_CAST_HPP
 //====================================================================================================
-#include <string>
-//====================================================================================================
-#include "Hypershock/Core/Core.hpp"
+#include "Hypershock/Core/Memory/WeakPtr.hpp"
+#include "Hypershock/Core/Object/Class.hpp"
+#include "Hypershock/Core/Object/Object.hpp"
 //====================================================================================================
 namespace Hypershock
 {
     //====================================================================================================
-    enum class SystemEventType : uint8
+    /**
+     *
+     * @tparam T
+     * @param object
+     * @return
+     */
+    template<typename T>
+    FORCE_INLINE T* Cast(const Object* object) noexcept
     {
-        None,
-        MouseButtonDown, MouseButtonUp, MouseButtonHold, MouseScroll, MouseMove,
-        KeyboardButtonDown, KeyboardButtonUp, KeyboardButtonHold,
-        WindowClose, WindowResize, WindowFocus, WindowUnfocus, WindowModeChange,
-        PreTick, Tick, PostTick, PreRender, Render, PostRender, Startup, Shutdown, Crash, Interrupt,
-    };
-    //====================================================================================================
-    enum class SystemEventClass : uint8
-    {
-        None,
-        Keyboard,
-        Mouse,
-        Window,
-        Application
-    };
-    //====================================================================================================
-    #define EVENT_TYPE_FUNCTIONS(type) FORCE_INLINE static SystemEventType GetStaticType() noexcept { return SystemEventType::type; } \
-                                    FORCE_INLINE virtual SystemEventType GetType() const noexcept override { return GetStaticType(); } \
-                                    FORCE_INLINE virtual std::string GetName() const noexcept override { return #type; }
-    //====================================================================================================
-    #define EVENT_CLASS_FUNCTIONS(class) FORCE_INLINE static SystemEventClass GetClass() { return SystemEventClass::class; }
-    //====================================================================================================
-    class HYPERSHOCK_PUBLIC_API SystemEvent
-    {
-    public:
-        /**
-         *
-         */
-        SystemEvent() noexcept = default;
-        /**
-         *
-         */
-        virtual ~SystemEvent() noexcept = default;
-        /**
-         *
-         * @return
-         */
-        FORCE_INLINE static SystemEventType GetStaticType() noexcept { return SystemEventType::None; }
-        /**
-         *
-         * @return
-        */
-        virtual SystemEventType GetType() const noexcept = 0;
-        /**
-         *
-         * @return
-         */
-        FORCE_INLINE virtual std::string GetName() const noexcept { return "None"; }
-        /**
-         *
-         * @return
-         */
-        FORCE_INLINE static SystemEventClass GetClass() noexcept { return SystemEventClass::None; }
-        /**
-         *
-         */
-        FORCE_INLINE void Handle() noexcept { m_Handled = true; }
-        /**
-         *
-         * @return
-         */
-        FORCE_INLINE bool IsHandled() const noexcept { return m_Handled; }
+        if (object == nullptr)
+        {
+            return nullptr;
+        }
 
-    private:
-        bool m_Handled = false;
-    };
+        if (object->IsA<T>())
+        {
+            return static_cast<T*>(object);
+        }
+
+        return nullptr;
+    }
     //====================================================================================================
 }
 //====================================================================================================
-#endif //HYPERSHOCK_EVENTCORE_HPP
+#endif //HYPERSHOCK_CAST_HPP
 //====================================================================================================

@@ -30,103 +30,77 @@
  */
 //====================================================================================================
 #pragma once
-#ifndef HYPERSHOCK_KEYBOARDEVENT_HPP
-#define HYPERSHOCK_KEYBOARDEVENT_HPP
+#ifndef HYPERSHOCK_OBJECT_HPP
+#define HYPERSHOCK_OBJECT_HPP
 //====================================================================================================
 #include "Hypershock/Core/Core.hpp"
 #include "Hypershock/Core/Types.hpp"
-#include "Hypershock/Event/EventCore.hpp"
+#include "Hypershock/Core/Memory/WeakPtr.hpp"
+#include "Hypershock/Core/String/String.hpp"
+#include "Hypershock/Core/Time/Timespan.hpp"
 //====================================================================================================
-namespace Hypershock {
+namespace Hypershock
+{
     //====================================================================================================
-    class HYPERSHOCK_PUBLIC_API KeyboardEvent : public SystemEvent {
-    public:
-        /**
-         *
-         */
-        KeyboardEvent() : SystemEvent() {}
-        /**
-         *
-         */
-        ~KeyboardEvent() override = default;
-        //====================================================================================================
-        EVENT_CLASS_FUNCTIONS(Keyboard)
-        //====================================================================================================
-    };
+    class Class;
     //====================================================================================================
-    class HYPERSHOCK_PUBLIC_API KeyboardButtonDownEvent : public KeyboardEvent {
+    class HYPERSHOCK_PUBLIC_API Object
+    {
     public:
-        /**
-         *
-         * @param key
-         */
-        explicit KeyboardButtonDownEvent(int32 key) : KeyboardEvent(), m_Keycode(key) {}
-        /**
-         *
-         */
-        ~KeyboardButtonDownEvent() override = default;
         /**
          *
          * @return
          */
-        FORCE_INLINE int32 GetKeycode() const { return m_Keycode; }
-        //====================================================================================================
-        EVENT_CLASS_FUNCTIONS(Keyboard)
-        EVENT_TYPE_FUNCTIONS(KeyboardButtonDown)
-        //====================================================================================================
-    private:
-        int32 m_Keycode;
-    };
-    //====================================================================================================
-    class HYPERSHOCK_PUBLIC_API KeyboardButtonUpEvent : public KeyboardEvent {
-    public:
-        /**
-         *
-         * @param key
-         */
-        explicit KeyboardButtonUpEvent(int32 key) : KeyboardEvent(), m_Keycode(key) {}
-        /**
-         *
-         */
-        ~KeyboardButtonUpEvent() override = default;
+        static WeakPtr<Class> StaticClass() noexcept;
         /**
          *
          * @return
          */
-        FORCE_INLINE int32 GetKeycode() const { return m_Keycode; }
-        //====================================================================================================
-        EVENT_CLASS_FUNCTIONS(Keyboard)
-        EVENT_TYPE_FUNCTIONS(KeyboardButtonUp)
-        //====================================================================================================
-    private:
-        int32 m_Keycode;
-    };
-    //====================================================================================================
-    class HYPERSHOCK_PUBLIC_API KeyboardButtonHoldEvent : public KeyboardEvent {
-    public:
-        /**
-         *
-         * @param key
-         */
-        explicit KeyboardButtonHoldEvent(int32 key) : KeyboardEvent(), m_Keycode(key) {}
-        /**
-         *
-         */
-        ~KeyboardButtonHoldEvent() override = default;
+        FORCE_INLINE virtual WeakPtr<Class> GetStaticClass() const noexcept { return StaticClass(); }
         /**
          *
          * @return
          */
-        FORCE_INLINE int32 GetKeycode() const { return m_Keycode; }
-        //====================================================================================================
-        EVENT_CLASS_FUNCTIONS(Keyboard)
-        EVENT_TYPE_FUNCTIONS(KeyboardButtonHold)
-        //====================================================================================================
-    private:
-        int32 m_Keycode;
+        FORCE_INLINE virtual String GetName() const noexcept { return TEXT("Object_(TODO: guid)"); }
+
+    public:
+        // TODO: add a macro that will define the class of the object by defining a static function that will contain the static variable of the class for the object
+        // TODO: add other shit to the macro as well.
+        Object() noexcept;
+        virtual ~Object() noexcept;
+
+    public:
+        virtual void BeginPlay() noexcept;
+        virtual void Tick(Timespan deltaTime) noexcept;
+        virtual void EndPlay() noexcept;
+        virtual void OnDestroy() noexcept;
+
+    public:
+        /**
+         *
+         * @tparam T
+         * @return
+         */
+        template<typename T>
+        FORCE_INLINE bool IsA() const noexcept
+        {
+            const WeakPtr<Class> otherStaticClass = T::StaticClass();
+            if (!otherStaticClass.IsValid())
+            {
+                return false;
+            }
+
+            return IsA(otherStaticClass);
+        }
+        /**
+         *
+         * @param other
+         * @return
+         */
+        bool IsA(const WeakPtr<Class> other) const noexcept;
     };
     //====================================================================================================
 }
 //====================================================================================================
-#endif //HYPERSHOCK_KEYBOARDEVENT_HPP
+#endif //HYPERSHOCK_OBJECT_HPP
 //====================================================================================================

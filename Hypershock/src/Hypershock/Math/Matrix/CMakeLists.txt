@@ -1,13 +1,9 @@
 #====================================================================================================
-set(EVENT_HEADERS
-        "${CMAKE_CURRENT_SOURCE_DIR}/EventCore.hpp"
-        "${CMAKE_CURRENT_SOURCE_DIR}/Event.hpp"
-        "${CMAKE_CURRENT_SOURCE_DIR}/MouseEvent.hpp"
-        "${CMAKE_CURRENT_SOURCE_DIR}/KeyboardEvent.hpp"
-        "${CMAKE_CURRENT_SOURCE_DIR}/ApplicationEvent.hpp"
-        "${CMAKE_CURRENT_SOURCE_DIR}/WindowEvent.hpp"
+set(HYPERSHOCK_MATRIX_HEADERS
+        "${CMAKE_CURRENT_SOURCE_DIR}/Matrix.hpp"
         CACHE INTERNAL "" FORCE)
 #====================================================================================================
-set(EVENT_SOURCES
+set(HYPERSHOCK_MATRIX_SOURCES
+        "${CMAKE_CURRENT_SOURCE_DIR}/Matrix.cpp"
         CACHE INTERNAL "" FORCE)
 #====================================================================================================

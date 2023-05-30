@@ -30,86 +30,15 @@
  */
 //====================================================================================================
 #pragma once
-#ifndef HYPERSHOCK_EVENTCORE_HPP
-#define HYPERSHOCK_EVENTCORE_HPP
+#ifndef HYPERSHOCK_MATH_HPP
+#define HYPERSHOCK_MATH_HPP
 //====================================================================================================
-#include <string>
-//====================================================================================================
-#include "Hypershock/Core/Core.hpp"
-//====================================================================================================
-namespace Hypershock
+namespace Hypershock::Math
 {
     //====================================================================================================
-    enum class SystemEventType : uint8
-    {
-        None,
-        MouseButtonDown, MouseButtonUp, MouseButtonHold, MouseScroll, MouseMove,
-        KeyboardButtonDown, KeyboardButtonUp, KeyboardButtonHold,
-        WindowClose, WindowResize, WindowFocus, WindowUnfocus, WindowModeChange,
-        PreTick, Tick, PostTick, PreRender, Render, PostRender, Startup, Shutdown, Crash, Interrupt,
-    };
-    //====================================================================================================
-    enum class SystemEventClass : uint8
-    {
-        None,
-        Keyboard,
-        Mouse,
-        Window,
-        Application
-    };
-    //====================================================================================================
-    #define EVENT_TYPE_FUNCTIONS(type) FORCE_INLINE static SystemEventType GetStaticType() noexcept { return SystemEventType::type; } \
-                                    FORCE_INLINE virtual SystemEventType GetType() const noexcept override { return GetStaticType(); } \
-                                    FORCE_INLINE virtual std::string GetName() const noexcept override { return #type; }
-    //====================================================================================================
-    #define EVENT_CLASS_FUNCTIONS(class) FORCE_INLINE static SystemEventClass GetClass() { return SystemEventClass::class; }
-    //====================================================================================================
-    class HYPERSHOCK_PUBLIC_API SystemEvent
-    {
-    public:
-        /**
-         *
-         */
-        SystemEvent() noexcept = default;
-        /**
-         *
-         */
-        virtual ~SystemEvent() noexcept = default;
-        /**
-         *
-         * @return
-         */
-        FORCE_INLINE static SystemEventType GetStaticType() noexcept { return SystemEventType::None; }
-        /**
-         *
-         * @return
-        */
-        virtual SystemEventType GetType() const noexcept = 0;
-        /**
-         *
-         * @return
-         */
-        FORCE_INLINE virtual std::string GetName() const noexcept { return "None"; }
-        /**
-         *
-         * @return
-         */
-        FORCE_INLINE static SystemEventClass GetClass() noexcept { return SystemEventClass::None; }
-        /**
-         *
-         */
-        FORCE_INLINE void Handle() noexcept { m_Handled = true; }
-        /**
-         *
-         * @return
-         */
-        FORCE_INLINE bool IsHandled() const noexcept { return m_Handled; }
 
-    private:
-        bool m_Handled = false;
-    };
     //====================================================================================================
 }
 //====================================================================================================
-#endif //HYPERSHOCK_EVENTCORE_HPP
+#endif //HYPERSHOCK_MATH_HPP
 //====================================================================================================

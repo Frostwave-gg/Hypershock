@@ -29,15 +29,29 @@
  *
  */
 //====================================================================================================
-#pragma once
-#ifndef HYPERSHOCK_EVENT_HPP
-#define HYPERSHOCK_EVENT_HPP
+#include "Object.hpp"
+#include "Hypershock/Core/Memory/SharedPtr.hpp"
+#include "Hypershock/Core/Object/Class.hpp"
 //====================================================================================================
-#include "Hypershock/Event/ApplicationEvent.hpp"
-#include "Hypershock/Event/EventCore.hpp"
-#include "Hypershock/Event/KeyboardEvent.hpp"
-#include "Hypershock/Event/MouseEvent.hpp"
-#include "Hypershock/Event/WindowEvent.hpp"
-//====================================================================================================
-#endif //HYPERSHOCK_EVENT_HPP
+namespace Hypershock
+{
+    //====================================================================================================
+    /*static*/
+    WeakPtr<Class> Object::StaticClass() noexcept
+    {
+        static SharedPtr<Class> s_StaticClass = Class::New();
+        return s_StaticClass.GetWeakPtr();
+    }
+    //====================================================================================================
+    bool Object::IsA(const WeakPtr<Class> other) const noexcept
+    {
+        if (!other.IsValid())
+        {
+            return false;
+        }
+
+        return other->IsA(GetStaticClass());
+    }
+    //====================================================================================================
+}
 //====================================================================================================

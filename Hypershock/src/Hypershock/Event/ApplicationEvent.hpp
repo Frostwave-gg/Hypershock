@@ -27,8 +27,12 @@
  *  Open-source commercial products may be eligible to a reduced owed profit percentage - contact Frostwave.gg for further information.
  *
  */
-
+//====================================================================================================
+#pragma once
 #ifndef HYPERSHOCK_APPLICATIONEVENT_HPP
 #define HYPERSHOCK_APPLICATIONEVENT_HPP
+//====================================================================================================
 
+//====================================================================================================
 #endif //HYPERSHOCK_APPLICATIONEVENT_HPP
+//====================================================================================================

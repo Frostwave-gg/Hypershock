@@ -30,26 +30,84 @@
  */
 //====================================================================================================
 #pragma once
-#ifndef HYPERSHOCK_ENTRYPOINT_HPP
-#define HYPERSHOCK_ENTRYPOINT_HPP
+#ifndef HYPERSHOCK_PLATFORM_HPP
+#define HYPERSHOCK_PLATFORM_HPP
 //====================================================================================================
-#include <iostream>
+#include "Hypershock/Core/Compiler.hpp"
 //====================================================================================================
-#include "Window.hpp"
+#define HYPERSHOCK_PLATFORM_WINDOWS 0
+#define HYPERSHOCK_PLATFORM_MACOS 1
+#define HYPERSHOCK_PLATFORM_IOS 2
+#define HYPERSHOCK_PLATFORM_LINUX 3
+#define HYPERSHOCK_PLATFORM_ANDROID 4
+#define HYPERSHOCK_PLATFORM_WEB 5
 //====================================================================================================
-extern void testEntry();
-//====================================================================================================
-int main(int argc, char* argv[])
-{
-    testEntry();
+#if (defined(_WIN32) || defined(_WIN64) || defined(__WIN32__) || defined(__TOS_WIN__) || defined(__WINDOWS__))
+    #ifdef HYPERSHOCK_PLATFORM
+        #error "Platform is already defined and cannot be defined twice."
+    #endif
 
-    Hypershock::Window window;
+    #define HYPERSHOCK_PLATFORM HYPERSHOCK_PLATFORM_WINDOWS
+    #define HYPERSHOCK_WINDOWS
 
-    while (!window.ShouldClose())
-    {
-        window.OnUpdate();
-    }
-}
+    #if (defined(_WIN64))
+        #define HYPERSHOCK_WINDOWS_64
+    #else
+        #define HYPERSHOCK_WINDOWS_32
+    #endif
+#endif
 //====================================================================================================
-#endif //HYPERSHOCK_ENTRYPOINT_HPP
+#if ((defined(macintosh) || defined(Macintosh) || defined(__APPLE__) || defined(__MACH__)) && !defined(__ENVIRONMENT_IPHONE_OS_VERSION_MIN_REQUIRED__))
+    #ifdef HYPERSHOCK_PLATFORM
+        #error "Platform is already defined and cannot be defined twice."
+    #endif
+
+    #define HYPERSHOCK_PLATFORM HYPERSHOCK_PLATFORM_MACOS
+    #define HYPERSHOCK_MACOS
+#endif
+//====================================================================================================
+#if ((defined(__APPLE__) || defined(__MACH__)) && defined(__ENVIRONMENT_IPHONE_OS_VERSION_MIN_REQUIRED__))
+    #ifdef HYPERSHOCK_PLATFORM
+        #error "Platform is already defined and cannot be defined twice."
+    #endif
+
+    #define HYPERSHOCK_PLATFORM HYPERSHOCK_PLATFORM_IOS
+    #define HYPERSHOCK_IOS
+#endif
+//====================================================================================================
+#if (defined(__linux__) || defined(linux) || defined(__linux))
+    #ifdef HYPERSHOCK_PLATFORM
+        #error "Platform is already defined and cannot be defined twice."
+    #endif
+
+    #define HYPERSHOCK_PLATFORM HYPERSHOCK_PLATFORM_LINUX
+    #define HYPERSHOCK_LINUX
+#endif
+//====================================================================================================
+#if (defined(__ANDROID__))
+    #ifdef HYPERSHOCK_PLATFORM
+        #error "Platform is already defined and cannot be defined twice."
+    #endif
+
+    #define HYPERSHOCK_PLATFORM HYPERSHOCK_PLATFORM_ANDROID
+    #define HYPERSHOCK_ANDROID
+#endif
+//====================================================================================================
+#if (defined(__EMSCRIPTEN__))
+    #ifdef HYPERSHOCK_PLATFORM
+        #error "Platform is already defined and cannot be defined twice."
+    #endif
+
+    #define HYPERSHOCK_PLATFORM HYPERSHOCK_PLATFORM_WEB
+    #define HYPERSHOCK_WEB
+#endif
+//====================================================================================================
+// Platform Speficit Includes
+//====================================================================================================
+#ifdef HYPERSHOCK_WINDOWS
+    #include <windows.h>
+    #include <intrin.h>
+#endif
+//====================================================================================================
+#endif //HYPERSHOCK_PLATFORM_HPP
 //====================================================================================================

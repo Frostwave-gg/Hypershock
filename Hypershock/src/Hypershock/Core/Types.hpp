@@ -1,3 +1,4 @@
+//====================================================================================================
 /**
  *  Copyright (c) 2022 Frostwave.gg
  *
@@ -27,121 +28,155 @@
  *  Open-source commercial products may be eligible to a reduced owed profit percentage - contact Frostwave.gg for further information.
  *
  */
-
+//====================================================================================================
+#pragma once
 #ifndef HYPERSHOCK_TYPES_H
 #define HYPERSHOCK_TYPES_H
-
-#include "Core.hpp"
-
+//====================================================================================================
+#include "Hypershock/Core/Core.hpp"
+//====================================================================================================
 namespace Hypershock {
-
-    typedef unsigned char Uint8;
-    typedef unsigned short int Uint16;
-    typedef unsigned int Uint32;
-    typedef unsigned long long int Uint64;
-    typedef signed char Int8;
-    typedef signed short int Int16;
-    typedef signed int Int32;
-    typedef signed long long int Int64;
-    typedef Uint8 Byte;
-    typedef Uint64 Size;
-
+    //====================================================================================================
+    typedef unsigned char uint8;
+    typedef unsigned short int uint16;
+    typedef unsigned int uint32;
+    typedef unsigned long long int uint64;
+    typedef signed char int8;
+    typedef signed short int int16;
+    typedef signed int int32;
+    typedef signed long long int int64;
+    typedef uint8 byte;
+    typedef uint64 size;
+    typedef uint8 char8;
+    typedef uint16 char16;
+    typedef uint32 char32;
+    //====================================================================================================
+    typedef int32 TYPE_OF_NULL;
+    typedef decltype(nullptr) TYPE_OF_NULLPTR;
+    //====================================================================================================
     namespace Limits {
-
-        const Uint8 Uint8_MIN = 0;
-        const Uint8 Uint8_MAX = 0xFFU;
-        const Uint16 Uint16_MIN = 0;
-        const Uint16 Uint16_MAX = 0xFFFFU;
-        const Uint32 Uint32_MIN = 0;
-        const Uint32 Uint32_MAX = 0xFFFFFFFFU;
-        const Uint64 Uint64_MIN = 0;
-        const Uint64 Uint64_MAX = 0xFFFFFFFFFFFFFFFFULL;
-
-        const Int8 Int8_MIN = -128;
-        const Int8 Int8_MAX = 127;
-        const Int16 Int16_MIN = -32768;
-        const Int16 Int16_MAX = 32767;
-        const Int32 Int32_MIN = -2147483648;
-        const Int32 Int32_MAX = 2147483647;
-        const Int64 Int64_MIN = (Int64)0x8000000000000000ULL;
-        const Int64 Int64_MAX = (Int64)0x7FFFFFFFFFFFFFFFULL;
-
-        const Byte Byte_MIN = 0;
-        const Byte Byte_MAX = 0xFFU;
-
-        const Size Size_MIN = (Size)0x8000000000000000ULL;
-        const Size Size_MAX = (Size)0x7FFFFFFFFFFFFFFFULL;
-
-        template<typename T> T Minimum();
-
-        template<typename T> T Maximum();
-
-        template<> Uint8 Minimum<Uint8>() {
-            return Uint8_MIN;
-        }
-
-        template<> Uint8 Maximum<Uint8>() {
-            return Uint8_MAX;
-        }
-
-        template<> Uint16 Minimum<Uint16>() {
-            return Uint16_MIN;
-        }
-
-        template<> Uint16 Maximum<Uint16>() {
-            return Uint16_MAX;
-        }
-
-        template<> Uint32 Minimum<Uint32>() {
-            return Uint32_MIN;
-        }
-
-        template<> Uint32 Maximum<Uint32>() {
-            return Uint32_MAX;
-        }
-
-        template<> Uint64 Minimum<Uint64>() {
-            return Uint64_MIN;
-        }
-
-        template<> Uint64 Maximum<Uint64>() {
-            return Uint64_MAX;
-        }
-
-        template<> Int8 Minimum<Int8>() {
-            return Int8_MIN;
-        }
-
-        template<> Int8 Maximum<Int8>() {
-            return Int8_MAX;
-        }
-
-        template<> Int16 Minimum<Int16>() {
-            return Int16_MIN;
-        }
-
-        template<> Int16 Maximum<Int16>() {
-            return Int16_MAX;
-        }
-
-        template<> Int32 Minimum<Int32>() {
-            return Int32_MIN;
-        }
-
-        template<> Int32 Maximum<Int32>() {
-            return Int32_MAX;
-        }
-
-        template<> Int64 Minimum<Int64>() {
-            return Int64_MIN;
-        }
-
-        template<> Int64 Maximum<Int64>() {
-            return Int64_MAX;
-        }
+        //====================================================================================================
+        constexpr uint8 uint8_MIN = 0;
+        constexpr uint8 uint8_MAX = 0xFFU;
+        constexpr uint16 uint16_MIN = 0;
+        constexpr uint16 uint16_MAX = 0xFFFFU;
+        constexpr uint32 uint32_MIN = 0;
+        constexpr uint32 uint32_MAX = 0xFFFFFFFFU;
+        constexpr uint64 uint64_MIN = 0;
+        constexpr uint64 uint64_MAX = 0xFFFFFFFFFFFFFFFFULL;
+        //====================================================================================================
+        constexpr int8 int8_MIN = -128;
+        constexpr int8 int8_MAX = 127;
+        constexpr int16 int16_MIN = -32768;
+        constexpr int16 int16_MAX = 32767;
+        constexpr int32 int32_MIN = -2147483648;
+        constexpr int32 int32_MAX = 2147483647;
+        constexpr int64 int64_MIN = 0x8000000000000000LL;
+        constexpr int64 int64_MAX = 0x7FFFFFFFFFFFFFFFLL;
+        //====================================================================================================
+        constexpr byte byte_MIN = 0;
+        constexpr byte byte_MAX = 0xFFU;
+        //====================================================================================================
+        constexpr size size_MIN = 0x8000000000000000ULL;
+        constexpr size size_MAX = 0x7FFFFFFFFFFFFFFFULL;
+        //====================================================================================================
+        /**
+         *
+         * @tparam T
+         * @return
+         */
+        template<typename T> constexpr T Minimum();
+        /**
+         *
+         * @tparam T
+         * @return
+         */
+        template<typename T> constexpr T Maximum();
+        //====================================================================================================
+        /**
+         *
+         * @return
+         */
+        template<> constexpr uint8 Minimum<uint8>() { return uint8_MIN; }
+        /**
+         *
+         * @return
+         */
+        template<> constexpr uint8 Maximum<uint8>() { return uint8_MAX; }
+        /**
+         *
+         * @return
+         */
+        template<> constexpr uint16 Minimum<uint16>() { return uint16_MIN; }
+        /**
+         *
+         * @return
+         */
+        template<> constexpr uint16 Maximum<uint16>() { return uint16_MAX; }
+        /**
+         *
+         * @return
+         */
+        template<> constexpr uint32 Minimum<uint32>() { return uint32_MIN; }
+        /**
+         *
+         * @return
+         */
+        template<> constexpr uint32 Maximum<uint32>() { return uint32_MAX; }
+        /**
+         *
+         * @return
+         */
+        template<> constexpr uint64 Minimum<uint64>() { return uint64_MIN; }
+        /**
+         *
+         * @return
+         */
+        template<> constexpr uint64 Maximum<uint64>() { return uint64_MAX; }
+        /**
+         *
+         * @return
+         */
+        template<> constexpr int8 Minimum<int8>() { return int8_MIN; }
+        /**
+         *
+         * @return
+         */
+        template<> constexpr int8 Maximum<int8>() { return int8_MAX; }
+        /**
+         *
+         * @return
+         */
+        template<> constexpr int16 Minimum<int16>() { return int16_MIN; }
+        /**
+         *
+         * @return
+         */
+        template<> constexpr int16 Maximum<int16>() { return int16_MAX; }
+        /**
+         *
+         * @return
+         */
+        template<> constexpr int32 Minimum<int32>() { return int32_MIN; }
+        /**
+         *
+         * @return
+         */
+        template<> constexpr int32 Maximum<int32>() { return int32_MAX; }
+        /**
+         *
+         * @return
+         */
+        template<> constexpr int64 Minimum<int64>() { return int64_MIN; }
+        /**
+         *
+         * @return
+         */
+        template<> constexpr int64 Maximum<int64>() { return int64_MAX; }
+        //====================================================================================================
     }
-
+    //====================================================================================================
 }
-
-
+//====================================================================================================
 #endif //HYPERSHOCK_TYPES_H
+//====================================================================================================

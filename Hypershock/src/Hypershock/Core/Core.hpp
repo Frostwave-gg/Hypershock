@@ -1,3 +1,4 @@
+//====================================================================================================
 /**
  *  Copyright (c) 2022 Frostwave.gg
  *
@@ -27,149 +28,87 @@
  *  Open-source commercial products may be eligible to a reduced owed profit percentage - contact Frostwave.gg for further information.
  *
  */
-
+//====================================================================================================
+#pragma once
 #ifndef HYPERSHOCK_CORE_HPP
 #define HYPERSHOCK_CORE_HPP
+//====================================================================================================
+#include "Hypershock/Core/Compiler.hpp"
+#include "Hypershock/Core/Platform.hpp"
+//====================================================================================================
+// Variety
+//====================================================================================================
+#define EMPTY
+#define NODISCARD [[nodiscard]]
+#define SIGN(x) (x >= 0 ? 1 : -1)
+#define DECIMAL(x) (x - static_cast<int32>(x))
 
-#define HYPERSHOCK_PLATFORM_WINDOWS 0
-#define HYPERSHOCK_PLATFORM_MACOS 1
-#define HYPERSHOCK_PLATFORM_IOS 2
-#define HYPERSHOCK_PLATFORM_LINUX 3
-#define HYPERSHOCK_PLATFORM_ANDROID 4
-#define HYPERSHOCK_PLATFORM_WEB 5
-
-
-#if (defined(_WIN32) || defined(_WIN64) || defined(__WIN32__) || defined(__TOS_WIN__) || defined(__WINDOWS__))
-
-#ifdef HYPERSHOCK_PLATFORM
-#error "Platform is already defined and cannot be defined twice."
-#endif
-
-#define HYPERSHOCK_PLATFORM HYPERSHOCK_PLATFORM_WINDOWS
-#define HYPERSHOCK_WINDOWS
-
-#if (defined(_WIN64))
-#define HYPERSHOCK_WINDOWS_64
+#ifdef HYPERSHOCK_WINDOWS
+    #define DEBUG_BREAK() __debugbreak()
 #else
-#define HYPERSHOCK_WINDOWS_32
+    #define DEBUG_BREAK()
 #endif
 
+#define CHECK(x) { if (!(x)) DEBUG_BREAK(); }
+
+#define NOT_IMPLEMENTED() DEBUG_BREAK()
+
+#ifdef HYPERSHOCK_MSVC
+    #define INLINE __inline
+    #define FORCE_INLINE __forceinline
+#else
+    #define INLINE inline
+
+    #if defined(HYPERSHOCK_GCC) || defined(HYPERSHOCK_CLANG)
+        #define FORCE_INLINE __attribute__((always_inline))
+    #else
+        #define FORCE_INLINE inline
+    #endif
+#endif
+//====================================================================================================
+// Import / Export
+//====================================================================================================
+#ifdef HYPERSHOCK_MSVC
+    #define DLL_EXPORT __declspec(dllexport)
+    #define DLL_IMPORT __declspec(dllimport)
+#else
+    #define DLIB_EXPORT_PUBLIC __attribute__((visibility("default")))
+    #define DLIB_EXPORT_PRIVATE __attribute__((visibility("hidden")))
+    #define DLIB_IMPORT
 #endif
 
-
-#if ((defined(macintosh) || defined(Macintosh) || defined(__APPLE__) || defined(__MACH__)) && !defined(__ENVIRONMENT_IPHONE_OS_VERSION_MIN_REQUIRED__))
-
-#ifdef HYPERSHOCK_PLATFORM
-#error "Platform is already defined and cannot be defined twice."
-#endif
-
-#define HYPERSHOCK_PLATFORM HYPERSHOCK_PLATFORM_MACOS
-#define HYPERSHOCK_MACOS
-
-#endif
-
-
-#if ((defined(__APPLE__) || defined(__MACH__)) && defined(__ENVIRONMENT_IPHONE_OS_VERSION_MIN_REQUIRED__))
-
-#ifdef HYPERSHOCK_PLATFORM
-#error "Platform is already defined and cannot be defined twice."
-#endif
-
-#define HYPERSHOCK_PLATFORM HYPERSHOCK_PLATFORM_IOS
-#define HYPERSHOCK_IOS
-
-#endif
-
-
-#if (defined(__linux__) || defined(linux) || defined(__linux))
-
-#ifdef HYPERSHOCK_PLATFORM
-#error "Platform is already defined and cannot be defined twice."
-#endif
-
-#define HYPERSHOCK_PLATFORM HYPERSHOCK_PLATFORM_LINUX
-#define HYPERSHOCK_LINUX
-
-#endif
-
-
-#if (defined(__ANDROID__))
-
-#ifdef HYPERSHOCK_PLATFORM
-#error "Platform is already defined and cannot be defined twice."
-#endif
-
-#define HYPERSHOCK_PLATFORM HYPERSHOCK_PLATFORM_ANDROID
-#define HYPERSHOCK_ANDROID
-
-#endif
-
-
-#if (defined(__EMSCRIPTEN__))
-
-#ifdef HYPERSHOCK_PLATFORM
-#error "Platform is already defined and cannot be defined twice."
-#endif
-
-#define HYPERSHOCK_PLATFORM HYPERSHOCK_PLATFORM_WEB
-#define HYPERSHOCK_WEB
-
-#endif
-
-#define HYPERSHOCK_COMPILER_CLANG 0
-#define HYPERSHOCK_COMPILER_GCC 1
-#define HYPERSHOCK_COMPILER_MSVC 2
-
-#if defined(__clang__)
-/** Clang/LLVM. ---------------------------------------------- */
-#define HYPERSHOCK_CLANG
-#define HYPERSHOCK_COMPILER HYPERSHOCK_COMPILER_CLANG
-
-#elif defined(__GNUC__) || defined(__GNUG__)
-/** GNU GCC/G++. --------------------------------------------- */
-#define HYPERSHOCK_GCC
-#define HYPERSHOCK_COMPILER HYPERSHOCK_COMPILER_GCC
-
-#elif defined(_MSC_VER)
-/** Microsoft Visual Studio. --------------------------------- */
-#define HYPERSHOCK_MSVC
-#define HYPERSHOCK_COMPILER HYPERSHOCK_COMPILER_MSVC
-
-#endif // GGEZ_COMPILER
-
-    #ifdef HYPERSHOCK_BUILD_SHARED
-
-        #ifdef HYPERSHOCK_WINDOWS
-
-            #ifdef HYPERSHOCK_MSVC
-
-                #ifdef HYPERSHOCK_EXPORT
-                    #define HYPERSHOCK_PUBLIC_API __declspec(dllexport)
-                #else
-                    #define HYPERSHOCK_PUBLIC_API __declspec(dllimport)
-                #endif
-
-                #define HYPERSHOCK_PRIVATE_API
-
+#ifdef HYPERSHOCK_BUILD_SHARED
+    #ifdef HYPERSHOCK_WINDOWS
+        #ifdef HYPERSHOCK_MSVC
+            #ifdef HYPERSHOCK_EXPORT
+                #define HYPERSHOCK_PUBLIC_API DLL_EXPORT
             #else
-
-                #define HYPERSHOCK_PUBLIC_API __attribute__((visibility("default")))
-                #define HYPERSHOCK_PRIVATE_API __attribute__((visibility("hidden")))
-
+                #define HYPERSHOCK_PUBLIC_API DLL_IMPORT
             #endif
 
+            #define HYPERSHOCK_PRIVATE_API EMPTY
         #else
-
-            #define HYPERSHOCK_PUBLIC_API __attribute__((visibility("default")))
-            #define HYPERSHOCK_PRIVATE_API __attribute__((visibility("hidden")))
-
+            #ifdef HYPERSHOCK_EXPORT
+                #define HYPERSHOCK_PUBLIC_API DLIB_EXPORT_PUBLIC
+                #define HYPERSHOCK_PRIVATE_API DLIB_EXPORT_PRIVATE
+            #else
+                #define HYPERSHOCK_PUBLIC_API EMPTY
+                #define HYPERSHOCK_PRIVATE_API EMPTY
+            #endif
         #endif
-
     #else
-
-    #define HYPERSHOCK_PUBLIC_API
-    #define HYPERSHOCK_PRIVATE_API
-
+            #ifdef HYPERSHOCK_EXPORT
+                #define HYPERSHOCK_PUBLIC_API DLIB_EXPORT_PUBLIC
+                #define HYPERSHOCK_PRIVATE_API DLIB_EXPORT_PRIVATE
+            #else
+                #define HYPERSHOCK_PUBLIC_API EMPTY
+                #define HYPERSHOCK_PRIVATE_API EMPTY
+            #endif
     #endif
-
+#else
+    #define HYPERSHOCK_PUBLIC_API EMPTY
+    #define HYPERSHOCK_PRIVATE_API EMPTY
+#endif
+//====================================================================================================
 #endif //HYPERSHOCK_CORE_HPP
+//====================================================================================================

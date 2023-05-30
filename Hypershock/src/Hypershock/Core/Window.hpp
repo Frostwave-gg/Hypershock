@@ -1,3 +1,4 @@
+//====================================================================================================
 /**
  *  Copyright (c) 2022 Frostwave.gg
  *
@@ -27,83 +28,166 @@
  *  Open-source commercial products may be eligible to a reduced owed profit percentage - contact Frostwave.gg for further information.
  *
  */
-
+//====================================================================================================
+#pragma once
 #ifndef HYPERSHOCK_WINDOW_HPP
 #define HYPERSHOCK_WINDOW_HPP
-
-#include "Core.hpp"
-#include "Types.hpp"
-#include "Event/Event.hpp"
-
+//====================================================================================================
+#include "Hypershock/Core/Core.hpp"
+#include "Hypershock/Core/Types.hpp"
+#include "Hypershock/Core/String/String.hpp"
+#include "Hypershock/Event/Event.hpp"
+//====================================================================================================
 #include <GLFW/glfw3.h>
-
+//====================================================================================================
 #include <string>
 #include <functional>
-
-namespace Hypershock {
-
-    enum class WindowMode {
+//====================================================================================================
+namespace Hypershock
+{
+    //====================================================================================================
+    enum class WindowMode : uint8
+    {
         Hidden = 0,
         Windowed = 1,
         WindowedFullScreen = 2,
         FullScreen = 3,
         Minimized = 4
     };
-
-    struct WindowSettings {
-        Uint32 width;
-        Uint32 height;
-        std::string title;
-        std::string id;
+    //====================================================================================================
+    struct WindowSettings
+    {
+        uint32 width;
+        uint32 height;
+        uint32 pixelWidth;
+        uint32 pixelHeight;
+        glm::vec2 contentScale;
+        String title;
+        String id;
         WindowMode mode;
-        Uint32 refreshRate;
-        std::function<void(Event&)> eventCallback;
+        uint32 refreshRate;
+        std::function<void(SystemEvent&)> eventCallback;
     };
-
-    class HYPERSHOCK_PUBLIC_API Window {
+    //====================================================================================================
+    class HYPERSHOCK_PUBLIC_API Window
+    {
     public:
-        explicit Window(Uint32 width = 1920, Uint32 height = 1080, const std::string& title = "");
+        //====================================================================================================
+        /**
+         *
+         * @param width
+         * @param height
+         * @param title
+         */
+        explicit Window(uint32 width = 1920, uint32 height = 1080, const String& title = TEXT(""));
+        /**
+         *
+         * @param settings
+         */
         explicit Window(const WindowSettings& settings);
+        /**
+         *
+         */
         ~Window();
-
-        // TODO: instead of bools put an error system in place
-        bool Resize(Uint32 width, Uint32 height);
-        bool ChangeTitle(const std::string& title);
+        //====================================================================================================
+        /**
+         *
+         * @param width
+         * @param height
+         * @return
+         */
+        bool Resize(uint32 width, uint32 height);
+        /**
+         *
+         * @param title
+         * @return
+         */
+        bool ChangeTitle(const String& title);
+        /**
+         *
+         * @param mode
+         * @return
+         */
         bool ChangeMode(WindowMode mode);
-
+        /**
+         *
+         * @return
+         */
         bool Hide();
+        /**
+         *
+         * @return
+         */
         bool Show();
-
+        /**
+         *
+         * @return
+         */
         bool SetWindowed();
+        /**
+         *
+         * @return
+         */
         bool SetWindowedFullScreen();
+        /**
+         *
+         * @return
+         */
         bool SetFullScreen();
-
+        /**
+         *
+         * @return
+         */
         bool Minimize();
+        /**
+         *
+         * @return
+         */
         bool Unminimize();
-
+        /**
+         *
+         * @return
+         */
         bool Focus();
-
+        /**
+         *
+         * @return
+         */
         bool RequestAttention();
-
+        /**
+         *
+         * @param opacity
+         * @return
+         */
         bool SetOpacity(float opacity);
-
+        /**
+         *
+         * @return
+         */
         bool ShouldClose();
-
+        /**
+         *
+         */
         void OnUpdate();
-
+        /**
+         *
+         * @return
+         */
         inline GLFWwindow* GetNativeWindow() { return m_pNativeWindow; }
 
     private:
+        /**
+         *
+         */
         void SetupCallbacks();
 
     private:
         GLFWwindow* m_pNativeWindow;
-        static Size s_WindowCount;
+        static size s_WindowCount;
         WindowSettings m_Settings;
-
     };
-
+    //====================================================================================================
 }
-
-
+//====================================================================================================
 #endif //HYPERSHOCK_WINDOW_HPP
+//====================================================================================================

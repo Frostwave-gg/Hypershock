@@ -30,103 +30,35 @@
  */
 //====================================================================================================
 #pragma once
-#ifndef HYPERSHOCK_KEYBOARDEVENT_HPP
-#define HYPERSHOCK_KEYBOARDEVENT_HPP
+#ifndef HYPERSHOCK_VECTOR2_HPP
+#define HYPERSHOCK_VECTOR2_HPP
 //====================================================================================================
 #include "Hypershock/Core/Core.hpp"
 #include "Hypershock/Core/Types.hpp"
-#include "Hypershock/Event/EventCore.hpp"
 //====================================================================================================
-namespace Hypershock {
+namespace Hypershock
+{
     //====================================================================================================
-    class HYPERSHOCK_PUBLIC_API KeyboardEvent : public SystemEvent {
-    public:
-        /**
-         *
-         */
-        KeyboardEvent() : SystemEvent() {}
-        /**
-         *
-         */
-        ~KeyboardEvent() override = default;
+    union HYPERSHOCK_PUBLIC_API Vector2
+    {
         //====================================================================================================
-        EVENT_CLASS_FUNCTIONS(Keyboard)
+        struct
+        {
+            float X;
+            float Y;
+        };
         //====================================================================================================
-    };
-    //====================================================================================================
-    class HYPERSHOCK_PUBLIC_API KeyboardButtonDownEvent : public KeyboardEvent {
-    public:
-        /**
-         *
-         * @param key
-         */
-        explicit KeyboardButtonDownEvent(int32 key) : KeyboardEvent(), m_Keycode(key) {}
-        /**
-         *
-         */
-        ~KeyboardButtonDownEvent() override = default;
-        /**
-         *
-         * @return
-         */
-        FORCE_INLINE int32 GetKeycode() const { return m_Keycode; }
+        struct
+        {
+            float R;
+            float G;
+        };
         //====================================================================================================
-        EVENT_CLASS_FUNCTIONS(Keyboard)
-        EVENT_TYPE_FUNCTIONS(KeyboardButtonDown)
+        float Data[2] = {0.0f, 0.0f};
         //====================================================================================================
-    private:
-        int32 m_Keycode;
-    };
-    //====================================================================================================
-    class HYPERSHOCK_PUBLIC_API KeyboardButtonUpEvent : public KeyboardEvent {
-    public:
-        /**
-         *
-         * @param key
-         */
-        explicit KeyboardButtonUpEvent(int32 key) : KeyboardEvent(), m_Keycode(key) {}
-        /**
-         *
-         */
-        ~KeyboardButtonUpEvent() override = default;
-        /**
-         *
-         * @return
-         */
-        FORCE_INLINE int32 GetKeycode() const { return m_Keycode; }
-        //====================================================================================================
-        EVENT_CLASS_FUNCTIONS(Keyboard)
-        EVENT_TYPE_FUNCTIONS(KeyboardButtonUp)
-        //====================================================================================================
-    private:
-        int32 m_Keycode;
-    };
-    //====================================================================================================
-    class HYPERSHOCK_PUBLIC_API KeyboardButtonHoldEvent : public KeyboardEvent {
-    public:
-        /**
-         *
-         * @param key
-         */
-        explicit KeyboardButtonHoldEvent(int32 key) : KeyboardEvent(), m_Keycode(key) {}
-        /**
-         *
-         */
-        ~KeyboardButtonHoldEvent() override = default;
-        /**
-         *
-         * @return
-         */
-        FORCE_INLINE int32 GetKeycode() const { return m_Keycode; }
-        //====================================================================================================
-        EVENT_CLASS_FUNCTIONS(Keyboard)
-        EVENT_TYPE_FUNCTIONS(KeyboardButtonHold)
-        //====================================================================================================
-    private:
-        int32 m_Keycode;
     };
     //====================================================================================================
 }
 //====================================================================================================
-#endif //HYPERSHOCK_KEYBOARDEVENT_HPP
+#endif //HYPERSHOCK_VECTOR2_HPP
 //====================================================================================================

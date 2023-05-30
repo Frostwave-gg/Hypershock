@@ -30,14 +30,26 @@
  */
 //====================================================================================================
 #pragma once
-#ifndef HYPERSHOCK_EVENT_HPP
-#define HYPERSHOCK_EVENT_HPP
+#ifndef HYPERSHOCK_COMPILER_HPP
+#define HYPERSHOCK_COMPILER_HPP
 //====================================================================================================
-#include "Hypershock/Event/ApplicationEvent.hpp"
-#include "Hypershock/Event/EventCore.hpp"
-#include "Hypershock/Event/KeyboardEvent.hpp"
-#include "Hypershock/Event/MouseEvent.hpp"
-#include "Hypershock/Event/WindowEvent.hpp"
+#define HYPERSHOCK_COMPILER_CLANG 0
+#define HYPERSHOCK_COMPILER_GCC 1
+#define HYPERSHOCK_COMPILER_MSVC 2
 //====================================================================================================
-#endif //HYPERSHOCK_EVENT_HPP
+#if defined(__clang__)
+    /** Clang/LLVM. ---------------------------------------------- */
+    #define HYPERSHOCK_CLANG
+    #define HYPERSHOCK_COMPILER HYPERSHOCK_COMPILER_CLANG
+#elif defined(__GNUC__) || defined(__GNUG__)
+    /** GNU GCC/G++. --------------------------------------------- */
+    #define HYPERSHOCK_GCC
+    #define HYPERSHOCK_COMPILER HYPERSHOCK_COMPILER_GCC
+#elif defined(_MSC_VER)
+    /** Microsoft Visual Studio. --------------------------------- */
+    #define HYPERSHOCK_MSVC
+    #define HYPERSHOCK_COMPILER HYPERSHOCK_COMPILER_MSVC
+#endif
+//====================================================================================================
+#endif //HYPERSHOCK_COMPILER_HPP
 //====================================================================================================

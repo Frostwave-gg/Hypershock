@@ -30,103 +30,174 @@
  */
 //====================================================================================================
 #pragma once
-#ifndef HYPERSHOCK_KEYBOARDEVENT_HPP
-#define HYPERSHOCK_KEYBOARDEVENT_HPP
+#ifndef HYPERSHOCK_TIMESPAN_HPP
+#define HYPERSHOCK_TIMESPAN_HPP
 //====================================================================================================
 #include "Hypershock/Core/Core.hpp"
 #include "Hypershock/Core/Types.hpp"
-#include "Hypershock/Event/EventCore.hpp"
 //====================================================================================================
-namespace Hypershock {
+namespace Hypershock
+{
     //====================================================================================================
-    class HYPERSHOCK_PUBLIC_API KeyboardEvent : public SystemEvent {
+    class Timespan
+    {
     public:
-        /**
-         *
-         */
-        KeyboardEvent() : SystemEvent() {}
-        /**
-         *
-         */
-        ~KeyboardEvent() override = default;
         //====================================================================================================
-        EVENT_CLASS_FUNCTIONS(Keyboard)
+        /**
+         *
+         * @param ticks
+         */
+        explicit Timespan(double ticks = 0.0f) noexcept;
+        /**
+         *
+         * @param nanoseconds
+         * @param milliseconds
+         * @param seconds
+         * @param minutes
+         * @param hours
+         * @param days
+         * @param months
+         * @param years
+         */
+        explicit Timespan(int32 nanoseconds, int32 microseconds, int32 milliseconds, int32 seconds, int32 minutes, int32 hours, int32 days, int32 months, int32 years) noexcept;
+        /**
+         *
+         */
+        virtual ~Timespan() noexcept = default;
         //====================================================================================================
-    };
-    //====================================================================================================
-    class HYPERSHOCK_PUBLIC_API KeyboardButtonDownEvent : public KeyboardEvent {
-    public:
+        // TODO: move all possible operators outside of the class
         /**
          *
-         * @param key
+         * @param other
+         * @return
          */
-        explicit KeyboardButtonDownEvent(int32 key) : KeyboardEvent(), m_Keycode(key) {}
+        Timespan& operator=(const Timespan other) noexcept;
         /**
          *
+         * @param other
+         * @return
          */
-        ~KeyboardButtonDownEvent() override = default;
+        bool operator==(const Timespan other) const noexcept;
+        /**
+         *
+         * @param other
+         * @return
+         */
+        bool operator<(const Timespan other) const noexcept;
+        /**
+         *
+         * @param other
+         * @return
+         */
+        bool operator>(const Timespan other) const noexcept;
+        /**
+         *
+         * @param other
+         * @return
+         */
+        bool operator<=(const Timespan other) const noexcept;
+        /**
+         *
+         * @param other
+         * @return
+         */
+        bool operator>=(const Timespan other) const noexcept;
+        /**
+         *
+         * @param other
+         * @return
+         */
+        Timespan operator+(const Timespan other) const noexcept;
+        /**
+         *
+         * @param other
+         * @return
+         */
+        Timespan operator-(const Timespan other) const noexcept;
+        /**
+         *
+         * @param other
+         */
+        Timespan operator+=(const Timespan other) noexcept;
+        /**
+         *
+         * @param other
+         */
+        Timespan operator-=(const Timespan other) noexcept;
+        /**
+         *
+         * @param factor
+         * @return
+         */
+        Timespan operator*(const double factor) const noexcept;
+        /**
+         *
+         * @param factor
+         * @return
+         */
+        Timespan operator/(const double factor) const noexcept;
         /**
          *
          * @return
          */
-        FORCE_INLINE int32 GetKeycode() const { return m_Keycode; }
+        Timespan operator-(int) const noexcept;
         //====================================================================================================
-        EVENT_CLASS_FUNCTIONS(Keyboard)
-        EVENT_TYPE_FUNCTIONS(KeyboardButtonDown)
-        //====================================================================================================
-    private:
-        int32 m_Keycode;
-    };
-    //====================================================================================================
-    class HYPERSHOCK_PUBLIC_API KeyboardButtonUpEvent : public KeyboardEvent {
-    public:
-        /**
-         *
-         * @param key
-         */
-        explicit KeyboardButtonUpEvent(int32 key) : KeyboardEvent(), m_Keycode(key) {}
-        /**
-         *
-         */
-        ~KeyboardButtonUpEvent() override = default;
         /**
          *
          * @return
          */
-        FORCE_INLINE int32 GetKeycode() const { return m_Keycode; }
-        //====================================================================================================
-        EVENT_CLASS_FUNCTIONS(Keyboard)
-        EVENT_TYPE_FUNCTIONS(KeyboardButtonUp)
-        //====================================================================================================
-    private:
-        int32 m_Keycode;
-    };
-    //====================================================================================================
-    class HYPERSHOCK_PUBLIC_API KeyboardButtonHoldEvent : public KeyboardEvent {
-    public:
-        /**
-         *
-         * @param key
-         */
-        explicit KeyboardButtonHoldEvent(int32 key) : KeyboardEvent(), m_Keycode(key) {}
-        /**
-         *
-         */
-        ~KeyboardButtonHoldEvent() override = default;
+        double GetTicks() const noexcept;
         /**
          *
          * @return
          */
-        FORCE_INLINE int32 GetKeycode() const { return m_Keycode; }
-        //====================================================================================================
-        EVENT_CLASS_FUNCTIONS(Keyboard)
-        EVENT_TYPE_FUNCTIONS(KeyboardButtonHold)
-        //====================================================================================================
+        double GetYears() const noexcept;
+        /**
+         *
+         * @return
+         */
+        double GetMonths() const noexcept;
+        /**
+         *
+         * @return
+         */
+        double GetDays() const noexcept;
+        /**
+         *
+         * @return
+         */
+        double GetHours() const noexcept;
+        /**
+         *
+         * @return
+         */
+        double GetMinutes() const noexcept;
+        /**
+         *
+         * @return
+         */
+        double GetSeconds() const noexcept;
+        /**
+         *
+         * @return
+         */
+        double GetMilliseconds() const noexcept;
+        /**
+         *
+         * @return
+         */
+        double GetMicroseconds() const noexcept;
+        /**
+         *
+         * @return
+         */
+        double GetNanoseconds() const noexcept;
+
     private:
-        int32 m_Keycode;
+        double m_Ticks;
     };
     //====================================================================================================
 }
 //====================================================================================================
-#endif //HYPERSHOCK_KEYBOARDEVENT_HPP
+#endif //HYPERSHOCK_TIMESPAN_HPP
 //====================================================================================================

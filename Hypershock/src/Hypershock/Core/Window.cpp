@@ -1,3 +1,4 @@
+//====================================================================================================
 /**
  *  Copyright (c) 2022 Frostwave.gg
  *
@@ -27,17 +28,20 @@
  *  Open-source commercial products may be eligible to a reduced owed profit percentage - contact Frostwave.gg for further information.
  *
  */
-
+//====================================================================================================
 #include "Window.hpp"
-
+//====================================================================================================
 #include <iostream>
-
-namespace Hypershock {
-
-    Size Window::s_WindowCount = 0;
-
-    Window::Window(Uint32 width, Uint32 height, const std::string &title) {
-        if(s_WindowCount++ == 0) {
+//====================================================================================================
+namespace Hypershock
+{
+    //====================================================================================================
+    size Window::s_WindowCount = 0;
+    //====================================================================================================
+    Window::Window(uint32 width, uint32 height, const String& title)
+    {
+        if (s_WindowCount++ == 0)
+        {
             glfwInit();
         }
 
@@ -57,12 +61,13 @@ namespace Hypershock {
         glfwWindowHint(GLFW_REFRESH_RATE, GLFW_DONT_CARE);
         glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API); // Change to no_api for non opengl renderers
 
-        m_pNativeWindow = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
+        m_pNativeWindow = glfwCreateWindow(width, height, "TODO", nullptr, nullptr);
 
         m_Settings.width = width;
         m_Settings.height = height;
         m_Settings.title = title;
-        m_Settings.eventCallback = [](Event& event){
+        m_Settings.eventCallback = [] (SystemEvent& event)
+        {
             std::cout << event.GetName() << std::endl;
         };
         m_Settings.mode = WindowMode::Windowed;
@@ -70,33 +75,39 @@ namespace Hypershock {
 
         SetupCallbacks();
     }
-
-    Window::Window(const WindowSettings& settings) {
-        if(s_WindowCount++ == 0) {
+    //====================================================================================================
+    Window::Window(const WindowSettings& settings)
+    {
+        if (s_WindowCount++ == 0)
+        {
             glfwInit();
         }
 
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 
-        m_pNativeWindow = glfwCreateWindow(settings.width, settings.height, settings.title.c_str(), nullptr, nullptr);
+        m_pNativeWindow = glfwCreateWindow(settings.width, settings.height, "TODO", nullptr, nullptr);
 
         m_Settings = settings;
 
         SetupCallbacks();
     }
-
-    Window::~Window() {
+    //====================================================================================================
+    Window::~Window()
+    {
         glfwSetWindowShouldClose(m_pNativeWindow, GLFW_TRUE);
 
         glfwDestroyWindow(m_pNativeWindow);
 
-        if(--s_WindowCount == 0) {
+        if (--s_WindowCount == 0)
+        {
             glfwTerminate();
         }
     }
-
-    bool Window::Resize(Uint32 width, Uint32 height) {
-        if(width == 0 || height == 0) {
+    //====================================================================================================
+    bool Window::Resize(uint32 width, uint32 height)
+    {
+        if (width == 0 || height == 0)
+        {
             return false;
         }
 
@@ -104,113 +115,159 @@ namespace Hypershock {
 
         return true;
     }
-
-    bool Window::ChangeTitle(const std::string &title) {
-        glfwSetWindowTitle(m_pNativeWindow, title.c_str());
+    //====================================================================================================
+    bool Window::ChangeTitle(const String& title)
+    {
+        glfwSetWindowTitle(m_pNativeWindow, "TODO");
 
         return true;
     }
-
-    bool Window::ChangeMode(WindowMode mode) {
+    //====================================================================================================
+    bool Window::ChangeMode(WindowMode mode)
+    {
         return false;
     }
-
-    bool Window::Hide() {
+    //====================================================================================================
+    bool Window::Hide()
+    {
         return false;
     }
-
-    bool Window::Show() {
+    //====================================================================================================
+    bool Window::Show()
+    {
         return false;
     }
-
-    bool Window::SetWindowed() {
+    //====================================================================================================
+    bool Window::SetWindowed()
+    {
         return false;
     }
-
-    bool Window::SetWindowedFullScreen() {
+    //====================================================================================================
+    bool Window::SetWindowedFullScreen()
+    {
         return false;
     }
-
-    bool Window::SetFullScreen() {
+    //====================================================================================================
+    bool Window::SetFullScreen()
+    {
         return false;
     }
-
-    bool Window::Minimize() {
+    //====================================================================================================
+    bool Window::Minimize()
+    {
         return false;
     }
-
-    bool Window::Unminimize() {
+    //====================================================================================================
+    bool Window::Unminimize()
+    {
         return false;
     }
-
-    bool Window::Focus() {
+    //====================================================================================================
+    bool Window::Focus()
+    {
         return false;
     }
-
-    bool Window::RequestAttention() {
+    //====================================================================================================
+    bool Window::RequestAttention()
+    {
         return false;
     }
-
-    bool Window::SetOpacity(float opacity) {
+    //====================================================================================================
+    bool Window::SetOpacity(float opacity)
+    {
         return false;
     }
-
-    bool Window::ShouldClose() {
+    //====================================================================================================
+    bool Window::ShouldClose()
+    {
         return glfwWindowShouldClose(m_pNativeWindow);
     }
-
-    void Window::OnUpdate() {
+    //====================================================================================================
+    void Window::OnUpdate()
+    {
         glfwPollEvents();
     }
-
-    void Window::SetupCallbacks() {
+    //====================================================================================================
+    void Window::SetupCallbacks()
+    {
         glfwSetWindowUserPointer(m_pNativeWindow, &m_Settings);
 
         // TODO: setup callbacks for all types of events and implement more event types
-        glfwSetWindowCloseCallback(m_pNativeWindow, [](GLFWwindow* window) {
+        glfwSetWindowCloseCallback(m_pNativeWindow, [] (GLFWwindow* window)
+        {
             std::cout << "Window Close Event" << std::endl;
         });
-        glfwSetWindowContentScaleCallback(m_pNativeWindow, [](GLFWwindow* pWindow, float xScale, float yScale) {
+
+        glfwSetWindowContentScaleCallback(m_pNativeWindow, [] (GLFWwindow* pWindow, float xScale, float yScale)
+        {
             std::cout << "Window Content Scale Event" << std::endl;
         });
-        glfwSetWindowFocusCallback(m_pNativeWindow, [](GLFWwindow* pWindow, int focused) {
+
+        glfwSetWindowFocusCallback(m_pNativeWindow, [] (GLFWwindow* pWindow, int focused)
+        {
             std::cout << "Window Focus Event" << std::endl;
         });
-        glfwSetWindowIconifyCallback(m_pNativeWindow, [](GLFWwindow* pWindow, int iconified) {
+
+        glfwSetWindowIconifyCallback(m_pNativeWindow, [] (GLFWwindow* pWindow, int iconified)
+        {
             std::cout << "Window Iconify Event" << std::endl;
         });
-        glfwSetWindowMaximizeCallback(m_pNativeWindow, [](GLFWwindow* pWindow, int maximized) {
+
+        glfwSetWindowMaximizeCallback(m_pNativeWindow, [] (GLFWwindow* pWindow, int maximized)
+        {
             std::cout << "Window Maximize Event" << std::endl;
         });
-        glfwSetWindowSizeCallback(m_pNativeWindow, [](GLFWwindow* pWindow, Int32 width, Int32 height) {
+
+        glfwSetWindowSizeCallback(m_pNativeWindow, [] (GLFWwindow* pWindow, int32 width, int32 height)
+        {
             std::cout << "Window Resize Event" << std::endl;
         });
-        glfwSetWindowPosCallback(m_pNativeWindow, [](GLFWwindow* pWindow, Int32 xPos, Int32 yPos) {
+
+        glfwSetWindowPosCallback(m_pNativeWindow, [] (GLFWwindow* pWindow, int32 xPos, int32 yPos)
+        {
             std::cout << "Window Position Event" << std::endl;
         });
-        glfwSetWindowRefreshCallback(m_pNativeWindow, [](GLFWwindow* pWindow) {
+
+        glfwSetWindowRefreshCallback(m_pNativeWindow, [] (GLFWwindow* pWindow)
+        {
             std::cout << "Window Refresh Event" << std::endl;
         });
-        glfwSetMouseButtonCallback(m_pNativeWindow, [](GLFWwindow* pWindow, Int32 button, Int32 action, Int32 mods) {
+
+        glfwSetMouseButtonCallback(m_pNativeWindow, [] (GLFWwindow* pWindow, int32 button, int32 action, int32 mods)
+        {
             std::cout << "Mouse Button Event" << std::endl;
         });
-        glfwSetJoystickCallback([](Int32 JID, Int32 event) {
+
+        glfwSetJoystickCallback([] (int32 JID, int32 event)
+        {
             std::cout << "Joystick Event" << std::endl;
         });
-        glfwSetKeyCallback(m_pNativeWindow, [](GLFWwindow* pWindow, Int32 key, Int32 scancode, Int32 action, Int32 mods) {
+
+        glfwSetKeyCallback(m_pNativeWindow, [] (GLFWwindow* pWindow, int32 key, int32 scancode, int32 action, int32 mods)
+        {
             std::cout << "Keyboard Key Event" << std::endl;
         });
-        glfwSetScrollCallback(m_pNativeWindow, [](GLFWwindow* pWindow, double xOffset, double yOffset) {
+
+        glfwSetScrollCallback(m_pNativeWindow, [] (GLFWwindow* pWindow, double xOffset, double yOffset)
+        {
             std::cout << "Mouse Scroll Event" << std::endl;
         });
-        glfwSetCursorPosCallback(m_pNativeWindow, [](GLFWwindow* pWindow, double xPos, double yPos) {
+
+        glfwSetCursorPosCallback(m_pNativeWindow, [] (GLFWwindow* pWindow, double xPos, double yPos)
+        {
             std::cout << "Mouse Position Event" << std::endl;
         });
-        glfwSetCursorEnterCallback(m_pNativeWindow, [](GLFWwindow* pWindow, Int32 entered) {
+
+        glfwSetCursorEnterCallback(m_pNativeWindow, [] (GLFWwindow* pWindow, int32 entered)
+        {
             std::cout << "Cursor Enter Event" << std::endl;
         });
-        glfwSetFramebufferSizeCallback(m_pNativeWindow, [](GLFWwindow* pWindow, Int32 width, Int32 height) {
+
+        glfwSetFramebufferSizeCallback(m_pNativeWindow, [] (GLFWwindow* pWindow, int32 width, int32 height)
+        {
             std::cout << "Framebuffer Resize Event" << std::endl;
         });
     }
+    //====================================================================================================
 }
+//====================================================================================================

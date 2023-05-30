@@ -27,12 +27,14 @@
  *  Open-source commercial products may be eligible to a reduced owed profit percentage - contact Frostwave.gg for further information.
  *
  */
-
+//====================================================================================================
+#pragma once
 #ifndef HYPERSHOCK_HYPERSHOCK_HPP
 #define HYPERSHOCK_HYPERSHOCK_HPP
-
+//====================================================================================================
 #include "Hypershock/Core/Types.hpp"
 #include "Hypershock/Core/Core.hpp"
 #include "Hypershock/Core/EntryPoint.hpp"
-
+//====================================================================================================
 #endif //HYPERSHOCK_HYPERSHOCK_HPP
+//====================================================================================================

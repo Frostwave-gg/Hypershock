@@ -1,3 +1,4 @@
+//====================================================================================================
 /**
  *  Copyright (c) 2022 Frostwave.gg
  *
@@ -27,108 +28,177 @@
  *  Open-source commercial products may be eligible to a reduced owed profit percentage - contact Frostwave.gg for further information.
  *
  */
-
+//====================================================================================================
+#pragma once
 #ifndef HYPERSHOCK_MOUSEEVENT_HPP
 #define HYPERSHOCK_MOUSEEVENT_HPP
-
-#include "EventCore.hpp"
-#include "Core/Core.hpp"
-#include "Core/Types.hpp"
-
+//====================================================================================================
+#include "Hypershock/Core/Core.hpp"
+#include "Hypershock/Core/Types.hpp"
+#include "Hypershock/Event/EventCore.hpp"
+//====================================================================================================
 #include <glm/glm.hpp>
-
+//====================================================================================================
 namespace Hypershock {
-
-    class HYPERSHOCK_PUBLIC_API MouseEvent : public Event {
+    //====================================================================================================
+    class HYPERSHOCK_PUBLIC_API MouseEvent : public SystemEvent {
     public:
-        MouseEvent() : Event() {}
+        /**
+         *
+         */
+        MouseEvent() : SystemEvent() {}
+        /**
+         *
+         */
         ~MouseEvent() override = default;
-
+        //====================================================================================================
         EVENT_CLASS_FUNCTIONS(Mouse)
+        //====================================================================================================
     };
-
-
+    //====================================================================================================
     class HYPERSHOCK_PUBLIC_API MouseMoveEvent : public MouseEvent {
     public:
+        /**
+         *
+         * @param x
+         * @param y
+         */
         MouseMoveEvent(double x, double y) : MouseEvent(), m_X(x), m_Y(y) {}
+        /**
+         *
+         */
         ~MouseMoveEvent() override = default;
-
+        /**
+         *
+         * @return
+         */
+        FORCE_INLINE glm::vec2 GetPosition() const { return {m_X, m_Y}; }
+        /**
+         *
+         * @return
+         */
+        FORCE_INLINE double GetX() const { return m_X; }
+        /**
+         *
+         * @return
+         */
+        FORCE_INLINE double GetY() const { return m_Y; }
+        //====================================================================================================
         EVENT_CLASS_FUNCTIONS(Mouse)
-
         EVENT_TYPE_FUNCTIONS(MouseMove)
-
-        [[nodiscard]] inline glm::vec2 GetPosition() const { return {m_X, m_Y}; }
-
-        [[nodiscard]] inline double GetX() const { return m_X; }
-        [[nodiscard]] inline double GetY() const { return m_Y; }
-
+        //====================================================================================================
     private:
         double m_X, m_Y;
     };
-
+    //====================================================================================================
     class HYPERSHOCK_PUBLIC_API MouseScrollEvent : public MouseEvent {
     public:
+        /**
+         *
+         * @param xOffset
+         * @param yOffset
+         */
         MouseScrollEvent(double xOffset, double yOffset) : MouseEvent(), m_XOffset(xOffset), m_YOffset(yOffset) {}
+        /**
+         *
+         */
         ~MouseScrollEvent() override = default;
-
+        /**
+         *
+         * @return
+         */
+        FORCE_INLINE glm::vec2 GetOffsets() const { return {m_XOffset, m_YOffset}; }
+        /**
+         *
+         * @return
+         */
+        FORCE_INLINE double GetXOffset() const { return m_XOffset; }
+        /**
+         *
+         * @return
+         */
+        FORCE_INLINE double GetYOffset() const { return m_YOffset; }
+        //====================================================================================================
         EVENT_CLASS_FUNCTIONS(Mouse)
-
         EVENT_TYPE_FUNCTIONS(MouseScroll)
-
-        [[nodiscard]] inline glm::vec2 GetOffsets() const { return {m_XOffset, m_YOffset}; }
-
-        [[nodiscard]] inline double GetXOffset() const { return m_XOffset; }
-        [[nodiscard]] inline double GetYOffset() const { return m_YOffset; }
-
+        //====================================================================================================
     private:
         double m_XOffset, m_YOffset;
     };
-
+    //====================================================================================================
     class HYPERSHOCK_PUBLIC_API MouseButtonDownEvent : public MouseEvent {
     public:
-        explicit MouseButtonDownEvent(Int32 button) : MouseEvent(), m_ButtonCode(button) {}
+        /**
+         *
+         * @param button
+         */
+        explicit MouseButtonDownEvent(int32 button) : MouseEvent(), m_ButtonCode(button) {}
+        /**
+         *
+         */
         ~MouseButtonDownEvent() override = default;
-
+        /**
+         *
+         * @return
+         */
+        FORCE_INLINE int32 GetButtonCode() const { return m_ButtonCode; }
+        //====================================================================================================
         EVENT_CLASS_FUNCTIONS(Mouse)
-
         EVENT_TYPE_FUNCTIONS(MouseButtonDown)
-
-        [[nodiscard]] inline Int32 GetButtonCode() const { return m_ButtonCode; }
-
+        //====================================================================================================
     private:
-        Int32 m_ButtonCode;
+        int32 m_ButtonCode;
     };
-
+    //====================================================================================================
     class HYPERSHOCK_PUBLIC_API MouseButtonUpEvent : public MouseEvent {
     public:
-        explicit MouseButtonUpEvent(Int32 button) : MouseEvent(), m_ButtonCode(button) {}
+        /**
+         *
+         * @param button
+         */
+        explicit MouseButtonUpEvent(int32 button) : MouseEvent(), m_ButtonCode(button) {}
+        /**
+         *
+         */
         ~MouseButtonUpEvent() override = default;
-
+        /**
+         *
+         * @return
+         */
+        FORCE_INLINE int32 GetButtonCode() const { return m_ButtonCode; }
+        //====================================================================================================
         EVENT_CLASS_FUNCTIONS(Mouse)
-
         EVENT_TYPE_FUNCTIONS(MouseButtonUp)
-
-        [[nodiscard]] inline Int32 GetButtonCode() const { return m_ButtonCode; }
-
+        //====================================================================================================
     private:
-        Int32 m_ButtonCode;
+        int32 m_ButtonCode;
     };
-
+    //====================================================================================================
     class HYPERSHOCK_PUBLIC_API MouseButtonHoldEvent : public MouseEvent {
     public:
-        explicit MouseButtonHoldEvent(Int32 button) : MouseEvent(), m_ButtonCode(button) {}
+        /**
+         *
+         * @param button
+         */
+        explicit MouseButtonHoldEvent(int32 button) : MouseEvent(), m_ButtonCode(button) {}
+        /**
+         *
+         */
         ~MouseButtonHoldEvent() override = default;
-
+        /**
+         *
+         * @return
+         */
+        FORCE_INLINE int32 GetButtonCode() const { return m_ButtonCode; }
+        //====================================================================================================
         EVENT_CLASS_FUNCTIONS(Mouse)
-
         EVENT_TYPE_FUNCTIONS(MouseButtonHold)
-
-        [[nodiscard]] inline Int32 GetButtonCode() const { return m_ButtonCode; }
-
+        //====================================================================================================
     private:
-        Int32 m_ButtonCode;
+        int32 m_ButtonCode;
     };
-
+    //====================================================================================================
 }
-
+//====================================================================================================
 #endif //HYPERSHOCK_MOUSEEVENT_HPP
+//====================================================================================================

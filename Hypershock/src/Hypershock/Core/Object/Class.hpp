@@ -30,103 +30,148 @@
  */
 //====================================================================================================
 #pragma once
-#ifndef HYPERSHOCK_KEYBOARDEVENT_HPP
-#define HYPERSHOCK_KEYBOARDEVENT_HPP
+#ifndef HYPERSHOCK_CLASS_HPP
+#define HYPERSHOCK_CLASS_HPP
+//====================================================================================================
+#include <set>
 //====================================================================================================
 #include "Hypershock/Core/Core.hpp"
 #include "Hypershock/Core/Types.hpp"
-#include "Hypershock/Event/EventCore.hpp"
+#include "Hypershock/Core/Memory/WeakPtr.hpp"
 //====================================================================================================
-namespace Hypershock {
+namespace Hypershock
+{
     //====================================================================================================
-    class HYPERSHOCK_PUBLIC_API KeyboardEvent : public SystemEvent {
+    class Object;
+    //====================================================================================================
+    class HYPERSHOCK_PUBLIC_API Class
+    {
     public:
         /**
          *
+         * @tparam T
+         * @tparam Types
+         * @return
          */
-        KeyboardEvent() : SystemEvent() {}
-        /**
-         *
-         */
-        ~KeyboardEvent() override = default;
-        //====================================================================================================
-        EVENT_CLASS_FUNCTIONS(Keyboard)
-        //====================================================================================================
-    };
-    //====================================================================================================
-    class HYPERSHOCK_PUBLIC_API KeyboardButtonDownEvent : public KeyboardEvent {
-    public:
-        /**
-         *
-         * @param key
-         */
-        explicit KeyboardButtonDownEvent(int32 key) : KeyboardEvent(), m_Keycode(key) {}
-        /**
-         *
-         */
-        ~KeyboardButtonDownEvent() override = default;
+        template<typename T, typename ...Types>
+        FORCE_INLINE static Class* New() noexcept
+        {
+            Class* newClass = new Class();
+
+            newClass->SetCastFlags<T, Types...>();
+            newClass->SetId(++s_LastAssignedId);
+
+            return newClass;
+        }
         /**
          *
          * @return
          */
-        FORCE_INLINE int32 GetKeycode() const { return m_Keycode; }
-        //====================================================================================================
-        EVENT_CLASS_FUNCTIONS(Keyboard)
-        EVENT_TYPE_FUNCTIONS(KeyboardButtonDown)
-        //====================================================================================================
+        static Class* New() noexcept;
+
     private:
-        int32 m_Keycode;
-    };
-    //====================================================================================================
-    class HYPERSHOCK_PUBLIC_API KeyboardButtonUpEvent : public KeyboardEvent {
+        static uint32 s_LastAssignedId;
+
     public:
         /**
          *
-         * @param key
          */
-        explicit KeyboardButtonUpEvent(int32 key) : KeyboardEvent(), m_Keycode(key) {}
-        /**
-         *
-         */
-        ~KeyboardButtonUpEvent() override = default;
+        virtual ~Class() noexcept = default;
+
+    public:
         /**
          *
          * @return
          */
-        FORCE_INLINE int32 GetKeycode() const { return m_Keycode; }
-        //====================================================================================================
-        EVENT_CLASS_FUNCTIONS(Keyboard)
-        EVENT_TYPE_FUNCTIONS(KeyboardButtonUp)
-        //====================================================================================================
-    private:
-        int32 m_Keycode;
-    };
-    //====================================================================================================
-    class HYPERSHOCK_PUBLIC_API KeyboardButtonHoldEvent : public KeyboardEvent {
-    public:
+        FORCE_INLINE uint32 GetId() const noexcept { return m_Id; }
         /**
          *
-         * @param key
-         */
-        explicit KeyboardButtonHoldEvent(int32 key) : KeyboardEvent(), m_Keycode(key) {}
-        /**
-         *
-         */
-        ~KeyboardButtonHoldEvent() override = default;
-        /**
-         *
+         * @param other
          * @return
          */
-        FORCE_INLINE int32 GetKeycode() const { return m_Keycode; }
-        //====================================================================================================
-        EVENT_CLASS_FUNCTIONS(Keyboard)
-        EVENT_TYPE_FUNCTIONS(KeyboardButtonHold)
-        //====================================================================================================
+        bool IsA(const WeakPtr<Class>& other) const noexcept;
+        /**
+         *
+         * @param object
+         * @return
+         */
+        bool IsA(const WeakPtr<Object>& object) const noexcept;
+        /**
+         *
+         * @tparam T
+         * @return
+         */
+        template<typename T>
+        FORCE_INLINE bool IsA() const noexcept { return IsA(T::StaticClass()); }
+        /**
+         *
+         * @param other
+         * @return
+         */
+        bool HasCastFlags(const WeakPtr<Class>& other) const noexcept;
+        /**
+         *
+         * @param object
+         * @return
+         */
+        bool HasCastFlags(const WeakPtr<Object>& object) const noexcept;
+        /**
+         *
+         * @tparam T
+         * @return
+         */
+        template<typename T>
+        FORCE_INLINE bool HasCastFlags() const noexcept { return HasCastFlags(T::StaticClass()); }
+
+    protected:
+        /**
+         *
+         */
+        explicit Class() noexcept = default;
+        /**
+         *
+         * @tparam T
+         * @tparam Types
+         */
+        template<typename T, typename ...Types>
+        FORCE_INLINE void SetCastFlags() noexcept
+        {
+            Class* otherClass = T::StaticClass();
+
+            if (otherClass == nullptr)
+            {
+                return;
+            }
+
+            m_CastFlags.insert(otherClass->GetId());
+
+            for (uint32 id : otherClass->m_CastFlags)
+            {
+                m_CastFlags.insert(id);
+            }
+
+            SetCastFlags<Types...>();
+        }
+        /**
+         *
+         * @tparam ...
+         */
+        template<typename...>
+        FORCE_INLINE void SetCastFlags() const noexcept
+        {
+        }
+        /**
+         *
+         * @param id
+         */
+        FORCE_INLINE void SetId(uint32 id) noexcept { m_Id = id; }
+
     private:
-        int32 m_Keycode;
+        uint32 m_Id = 0; // TODO: add class id struct to be more specific. Add macro to quickly define different id structs.
+        std::set<uint32> m_CastFlags;
     };
     //====================================================================================================
 }
 //====================================================================================================
-#endif //HYPERSHOCK_KEYBOARDEVENT_HPP
+#endif //HYPERSHOCK_CLASS_HPP
 //====================================================================================================

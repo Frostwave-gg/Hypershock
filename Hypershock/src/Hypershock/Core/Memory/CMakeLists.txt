@@ -1,13 +1,12 @@
 #====================================================================================================
-set(EVENT_HEADERS
-        "${CMAKE_CURRENT_SOURCE_DIR}/EventCore.hpp"
-        "${CMAKE_CURRENT_SOURCE_DIR}/Event.hpp"
-        "${CMAKE_CURRENT_SOURCE_DIR}/MouseEvent.hpp"
-        "${CMAKE_CURRENT_SOURCE_DIR}/KeyboardEvent.hpp"
-        "${CMAKE_CURRENT_SOURCE_DIR}/ApplicationEvent.hpp"
-        "${CMAKE_CURRENT_SOURCE_DIR}/WindowEvent.hpp"
+set(HYPERSHOCK_MEMORY_HEADERS
+        "${CMAKE_CURRENT_SOURCE_DIR}/Cast.hpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Function.hpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/WeakPtr.hpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/SharedPtr.hpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/UniquePtr.hpp"
         CACHE INTERNAL "" FORCE)
 #====================================================================================================
-set(EVENT_SOURCES
+set(HYPERSHOCK_MEMORY_SOURCES
         CACHE INTERNAL "" FORCE)
 #====================================================================================================

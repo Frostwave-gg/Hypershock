@@ -1,3 +1,4 @@
+//====================================================================================================
 /**
  *  Copyright (c) 2022 Frostwave.gg
  *
@@ -27,82 +28,128 @@
  *  Open-source commercial products may be eligible to a reduced owed profit percentage - contact Frostwave.gg for further information.
  *
  */
-
+//====================================================================================================
+#pragma once
 #ifndef HYPERSHOCK_WINDOWEVENT_HPP
 #define HYPERSHOCK_WINDOWEVENT_HPP
-
-#include "Core/Core.hpp"
-#include "Core/Types.hpp"
-#include "EventCore.hpp"
-
+//====================================================================================================
+#include "Hypershock/Core/Core.hpp"
+#include "Hypershock/Core/Types.hpp"
+#include "Hypershock/Event/EventCore.hpp"
+//====================================================================================================
 #include <string>
-
+//====================================================================================================
 namespace Hypershock {
-
-    class HYPERSHOCK_PUBLIC_API WindowEvent : public Event {
+    //====================================================================================================
+    class HYPERSHOCK_PUBLIC_API WindowEvent : public SystemEvent {
     public:
-        explicit WindowEvent(const std::string& id) : Event() {}
+        /**
+         *
+         * @param id
+         */
+        explicit WindowEvent(const std::string& id) : SystemEvent() {}
+        /**
+         *
+         */
         ~WindowEvent() override = default;
-
+        /**
+         *
+         * @return
+         */
+        FORCE_INLINE std::string GetId() const noexcept { return m_WindowId; }
+        //====================================================================================================
         EVENT_CLASS_FUNCTIONS(Window)
-
-        [[nodiscard]] inline std::string GetId() const { return m_WindowId; }
-
+        //====================================================================================================
     protected:
         std::string m_WindowId;
     };
-
+    //====================================================================================================
     class HYPERSHOCK_PUBLIC_API WindowResizeEvent : public WindowEvent {
     public:
+        /**
+         *
+         * @param id
+         */
         explicit WindowResizeEvent(const std::string& id) : WindowEvent(id) {}
+        /**
+         *
+         */
         ~WindowResizeEvent() override = default;
-
+        //====================================================================================================
         EVENT_CLASS_FUNCTIONS(Window)
-
         EVENT_TYPE_FUNCTIONS(WindowResize)
+        //====================================================================================================
     };
-
+    //====================================================================================================
     class HYPERSHOCK_PUBLIC_API WindowFocusEvent : public WindowEvent {
     public:
+        /**
+         *
+         * @param id
+         */
         explicit WindowFocusEvent(const std::string& id) : WindowEvent(id) {}
+        /**
+         *
+         */
         ~WindowFocusEvent() override = default;
-
+        //====================================================================================================
         EVENT_CLASS_FUNCTIONS(Window)
-
         EVENT_TYPE_FUNCTIONS(WindowFocus)
+        //====================================================================================================
     };
-
+    //====================================================================================================
     class HYPERSHOCK_PUBLIC_API WindowUnfocusEvent : public WindowEvent {
     public:
+        /**
+         *
+         * @param id
+         */
         explicit WindowUnfocusEvent(const std::string& id) : WindowEvent(id) {}
+        /**
+         *
+         */
         ~WindowUnfocusEvent() override = default;
-
+        //====================================================================================================
         EVENT_CLASS_FUNCTIONS(Window)
-
         EVENT_TYPE_FUNCTIONS(WindowUnfocus)
+        //====================================================================================================
     };
-
+    //====================================================================================================
     class HYPERSHOCK_PUBLIC_API WindowCloseEvent : public WindowEvent {
     public:
+        /**
+         *
+         * @param id
+         */
         explicit WindowCloseEvent(const std::string& id) : WindowEvent(id) {}
+        /**
+         *
+         */
         ~WindowCloseEvent() override = default;
-
+        //====================================================================================================
         EVENT_CLASS_FUNCTIONS(Window)
-
         EVENT_TYPE_FUNCTIONS(WindowClose)
+        //====================================================================================================
     };
-
+    //====================================================================================================
     class HYPERSHOCK_PUBLIC_API WindowModeChangeEvent : public WindowEvent {
     public:
+        /**
+         *
+         * @param id
+         */
         explicit WindowModeChangeEvent(const std::string& id) : WindowEvent(id) {}
+        /**
+         *
+         */
         ~WindowModeChangeEvent() override = default;
-
+        //====================================================================================================
         EVENT_CLASS_FUNCTIONS(Window)
-
         EVENT_TYPE_FUNCTIONS(WindowModeChange)
+        //====================================================================================================
     };
-
+    //====================================================================================================
 }
-
-
+//====================================================================================================
 #endif //HYPERSHOCK_WINDOWEVENT_HPP
+//====================================================================================================

@@ -29,87 +29,73 @@
  *
  */
 //====================================================================================================
-#pragma once
-#ifndef HYPERSHOCK_EVENTCORE_HPP
-#define HYPERSHOCK_EVENTCORE_HPP
-//====================================================================================================
-#include <string>
-//====================================================================================================
-#include "Hypershock/Core/Core.hpp"
+#include "Class.hpp"
+#include "Hypershock/Core/Object/Object.hpp"
 //====================================================================================================
 namespace Hypershock
 {
     //====================================================================================================
-    enum class SystemEventType : uint8
+    uint32 Class::s_LastAssignedId = 0;
+    //====================================================================================================
+    /*static*/
+    Class* Class::New() noexcept
     {
-        None,
-        MouseButtonDown, MouseButtonUp, MouseButtonHold, MouseScroll, MouseMove,
-        KeyboardButtonDown, KeyboardButtonUp, KeyboardButtonHold,
-        WindowClose, WindowResize, WindowFocus, WindowUnfocus, WindowModeChange,
-        PreTick, Tick, PostTick, PreRender, Render, PostRender, Startup, Shutdown, Crash, Interrupt,
-    };
-    //====================================================================================================
-    enum class SystemEventClass : uint8
-    {
-        None,
-        Keyboard,
-        Mouse,
-        Window,
-        Application
-    };
-    //====================================================================================================
-    #define EVENT_TYPE_FUNCTIONS(type) FORCE_INLINE static SystemEventType GetStaticType() noexcept { return SystemEventType::type; } \
-                                    FORCE_INLINE virtual SystemEventType GetType() const noexcept override { return GetStaticType(); } \
-                                    FORCE_INLINE virtual std::string GetName() const noexcept override { return #type; }
-    //====================================================================================================
-    #define EVENT_CLASS_FUNCTIONS(class) FORCE_INLINE static SystemEventClass GetClass() { return SystemEventClass::class; }
-    //====================================================================================================
-    class HYPERSHOCK_PUBLIC_API SystemEvent
-    {
-    public:
-        /**
-         *
-         */
-        SystemEvent() noexcept = default;
-        /**
-         *
-         */
-        virtual ~SystemEvent() noexcept = default;
-        /**
-         *
-         * @return
-         */
-        FORCE_INLINE static SystemEventType GetStaticType() noexcept { return SystemEventType::None; }
-        /**
-         *
-         * @return
-        */
-        virtual SystemEventType GetType() const noexcept = 0;
-        /**
-         *
-         * @return
-         */
-        FORCE_INLINE virtual std::string GetName() const noexcept { return "None"; }
-        /**
-         *
-         * @return
-         */
-        FORCE_INLINE static SystemEventClass GetClass() noexcept { return SystemEventClass::None; }
-        /**
-         *
-         */
-        FORCE_INLINE void Handle() noexcept { m_Handled = true; }
-        /**
-         *
-         * @return
-         */
-        FORCE_INLINE bool IsHandled() const noexcept { return m_Handled; }
+        Class* newClass = new Class();
 
-    private:
-        bool m_Handled = false;
-    };
+        newClass->SetId(++s_LastAssignedId);
+
+        return newClass;
+    }
+    //====================================================================================================
+    bool Class::IsA(const WeakPtr<Class>& other) const noexcept
+    {
+        if (!other.IsValid())
+        {
+            return false;
+        }
+
+        Class* mutableThis = const_cast<Class*>(this);
+
+        return HasCastFlags(other) || other->HasCastFlags(mutableThis);
+    }
+    //====================================================================================================
+    bool Class::IsA(const WeakPtr<Object>& object) const noexcept
+    {
+        if (!object.IsValid())
+        {
+            return false;
+        }
+
+        return IsA(object->GetStaticClass());
+    }
+    //====================================================================================================
+    bool Class::HasCastFlags(const WeakPtr<Class>& other) const noexcept
+    {
+        if (!other.IsValid())
+        {
+            return false;
+        }
+
+        for (uint32 id : m_CastFlags)
+        {
+            if (other->m_Id == id)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    //====================================================================================================
+    bool Class::HasCastFlags(const WeakPtr<Object>& object) const noexcept
+    {
+        if (!object.IsValid())
+        {
+            return false;
+        }
+
+        return HasCastFlags(object->GetStaticClass());
+    }
     //====================================================================================================
 }
-//====================================================================================================
-#endif //HYPERSHOCK_EVENTCORE_HPP
 //====================================================================================================
